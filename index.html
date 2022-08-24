@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ABOBA🤣</title>
+    <link href="favicon.ico" rel="icon">
+    <script src="scripts/draw_graphics.js"></script>
+    <script type="module" src="/scripts/utils.js"></script>
+    <script defer type="module" src="main.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            font-family: 'Maven Pro', sans-serif;
+            background: linear-gradient(25deg, hsl(184, 100%, 41%), #8ce7ba 70%) fixed;
+        }
+
+        header {
+            font-family: serif;
+            padding: 0 1rem;
+            margin: 0em 0em 2em;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table td,
+        table th {
+            border: 1px solid rgba(212, 212, 212, 0.8);
+        }
+
+        table tr:first-child th {
+            border-top: 0;
+        }
+
+        table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        table tr td:first-child,
+        table tr th:first-child {
+            border-left: 0;
+        }
+
+        table tr td:last-child,
+        table tr th:last-child {
+            border-right: 0;
+        }
+
+        th,
+        td {
+            text-align: center;
+            padding: 0.25em 1em;
+        }
+
+        button {
+            padding: 3% 5%;
+            text-align: center;
+        }
+
+        label,
+        input,
+        button,
+        select {
+            color: black;
+            margin: 1em 0 0.5em 0;
+            border: none;
+            border-radius: 0;
+            font-size: 1.5rem;
+            font-family: 'Maven Pro', sans-serif;
+        }
+
+        input[type="button"] {
+            aspect-ratio: 1;
+            border-radius: 40%;
+            object-fit: scale-down;
+            align-self: center;
+        }
+
+        select {
+            border-radius: 0.5em;
+            border: 2px solid black;
+        }
+
+        input[type="text"] {
+            border-radius: 0.5em;
+            border: 2px solid black;
+            text-indent: 0.5em;
+        }
+
+        header>p {
+            text-align: center;
+            font-size: calc(2rem + 1vw);
+        }
+
+        .display-flex {
+            display: flex;
+            justify-content: center;
+            gap: 1em
+        }
+
+        .flex-column {
+            flex-direction: column;
+        }
+
+        .even-items>* {
+            flex: 1 0 2em;
+        }
+
+        .gap-half {
+            gap: 0.5em;
+        }
+
+        .space-evenly {
+            justify-content: space-evenly;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: 1fr 1fr 1.8fr;
+            align-items: start;
+        }
+
+        .rect-bg {
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            background-blend-mode: overlay;
+            box-shadow: 0 10px 15px rgb(0 0 0 / 20%);
+            box-sizing: border-box;
+            background-color: rgba(240, 255, 255, 0.8);
+        }
+
+        .round-bg {
+            border-radius: 0.7em;
+        }
+
+        .form-button {
+            border-radius: 0.3em;
+            background-color: rgba(0, 255, 106, 0.5);
+            box-shadow: 0 10px 20px rgb(0 0 0 / 20%);
+            aspect-ratio: 16/10;
+            transition: 0.3s;
+            transition-property: transform, box-shadow;
+            font-size: 1.1rem;
+        }
+
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 15px rgb(0 0 0 / 20%);
+        }
+
+        .hit {
+            background: rgba(0, 193, 0, 0.2);
+        }
+
+        .miss {
+            background: rgba(225, 0, 0, 0.3);
+        }
+
+        .invalid-message {
+            color: rgba(255, 0, 0, 0.918);
+            vertical-align: text-top;
+        }
+
+        .default-padding {
+            padding: 1.5rem;
+        }
+
+        .r-selector {
+            box-sizing: border-box;
+            box-shadow: 0 5px 17px rgb(0 0 0 / 15%);
+            background-color: rgba(28, 255, 122, 0.459);
+            transition: 0.2s;
+            transition-property: background-color, transform, box-shadow;
+        }
+
+        .r-selector:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 7px 15px rgb(0 0 0 / 15%);
+        }
+
+        .r-selector.selected {
+            transform: translateY(-2px);
+            background-color: rgba(0, 255, 200, 0.664);
+            box-shadow: 0 8px 12px rgb(0 0 0 / 15%);
+        }
+
+        #result-table {
+            margin: 2em 3em;
+        }
+
+        #main-section {
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #graph {
+            display: block;
+            /* max-width: 500px; */
+            object-fit: contain;
+        }
+
+        .invalid {
+            color: red;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: rgb(242, 248, 248);
+                background: linear-gradient(25deg, #009Fc2, #50b377) fixed;
+            }
+
+            label {
+                color: rgb(242, 248, 248);
+            }
+
+            header>p {
+                color: #b3e7e7;
+            }
+
+            .rect-bg {
+                background-color: rgba(26, 94, 94, 0.7);
+            }
+
+            .miss {
+                background: rgba(253, 26, 26, 0.459);
+            }
+
+            .form-button {
+                background-color: rgba(0, 255, 106, 0.582);
+            }
+
+            .r-selector {
+                background-color: rgba(0, 255, 106, 0.582);
+            }
+
+            .r-selector.selected {
+                background-color: rgba(0, 255, 200, 0.863);
+            }
+        }
+
+        @media (min-width:95vh) {
+            #main-section {
+                align-items: stretch;
+                flex-direction: row-reverse;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="display-flex space-evenly rect-bg">
+        <p>Полушкин М.Ю.</p>
+        <p>P3132</p>
+        <p>Вариант 3214</p>
+    </header>
+    <section class="display-flex" id="main-section">
+        <img src="areas.png" alt="areas" class="rect-bg round-bg default-padding" id="graph">
+        <form class="rect-bg round-bg default-padding" id="xyrForm">
+            <div class="grid">
+                <label for="x">x value:</label>
+                <select name="x" class="form-input" id="x-input">
+                    <option value="-3">-3</option>
+                    <option value="-2">-2</option>
+                    <option value="-1">-1</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <label for="y">y value:</label>
+                <input type="text" placeholder="-3 ≤ y ≤ 5" name="y" class="form-input" id="y-input">
+                <label for="r">R value:</label>
+                <div>
+                    <div class="display-flex even-items form-input gap-half">
+                        <input type="button" class="r-selector" value="1">
+                        <input type="button" class="r-selector" value="1.5">
+                        <input type="button" class="r-selector" value="2">
+                        <input type="button" class="r-selector" value="2.5">
+                        <input type="button" class="r-selector" value="3">
+                    </div>
+                    <input type="hidden" name="r" id="r-input">
+                </div>
+            </div>
+            <div class="display-flex space-evenly flex-wrap">
+                <button class="form-button rect-bg" type="submit">check</button>
+                <button class="form-button rect-bg" type="reset">reset</button>
+            </div>
+        </form>
+    </section>
+    <section class="display-flex">
+        <table class="rect-bg round-bg default-padding" id="result-table" aria-describedby="requestResults" hidden>
+            <tr>
+                <th>x</th>
+                <th>y</th>
+                <th>R</th>
+                <th>Is inside?</th>
+                <th>Completion time</th>
+                <th>Current time</th>
+            </tr>
+        </table>
+    </section>
+</body>
+
+</html>
