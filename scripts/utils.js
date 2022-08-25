@@ -9,34 +9,18 @@ export function sendForm(form, table, failAnimationDuration) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            return response.json();
+            return response.text();
         })
         .then((response) => {
-            if (!response || !response.valid) {
+            const tableRows = response.match(/<tr>\s*?(.*?)\s*?<\/tr>/m)
+
+            if (!tableRows || !tableRows.length > 1) {
                 animateInvalid(form, failAnimationDuration)
+                alert("Invalid server response")
                 return
             }
 
-            const row = table.insertRow()
-
-            let cell = row.insertCell()
-            cell.innerHTML = formData.get("x")
-
-            cell = row.insertCell()
-            cell.innerHTML = formData.get("y")
-
-            cell = row.insertCell()
-            cell.innerHTML = formData.get("r")
-
-            cell = row.insertCell()
-            cell.innerHTML = response.result ? "Yes!" : "No"
-            cell.classList.add(response.result ? "hit" : "miss")
-
-            cell = row.insertCell()
-            cell.innerHTML = response.completionTime
-
-            cell = row.insertCell()
-            cell.innerHTML = new Date(response.currentTime * MS_TO_S).toUTCString()
+            table.insertAdjacentHTML("beforeend", tableRows[1])
 
             table.hidden = false
         })
