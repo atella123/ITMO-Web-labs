@@ -1,21 +1,35 @@
-import { sendForm, animateInvalid, removeLastChar } from "./scripts/utils.js"
+import { sendForm, animateInvalid } from "./scripts/utils.js"
 
 const minY = -3
 const maxY = 5
 const form = document.getElementById("xyrForm")
 const rInput = document.getElementById("r-input")
 const yInput = document.getElementById("y-input")
+const yErrorMessage = document.getElementById("y-error-message")
 const tableBody = document.getElementById("result-table-body")
 const animationDuration = 700
 
-yInput.addEventListener("input", (event) => {
-    event.preventDefault()
+yInput.addEventListener("change", (event) => {
+    animateInvalid(form, animationDuration)
+    
+    if (yInput.value.length === 0) {
+        yErrorMessage.innerHTML = "y value must be present"
+        return
+    }
 
-    // const newValue = event.target.value
-    // const numericValue = Number(newValue)
-    // if (isNaN(numericValue) || newValue < minY || newValue > maxY) {
-    //     event.target.value = removeLastChar(newValue)
-    // }
+    const yNumValue = Number(yInput.value)
+
+    if (isNaN(yNumValue)) {
+        yErrorMessage.innerHTML = "y value must be a number"
+        return
+    }
+
+    if (yNumValue < minY || yNumValue > maxY) {
+        yErrorMessage.innerHTML = "y value must be between -3 and 5"
+        return
+    }
+
+    yErrorMessage.innerHTML = ""
 });
 
 for (let rSelector of document.getElementsByClassName("r-selector")) {
@@ -29,6 +43,11 @@ for (let rSelector of document.getElementsByClassName("r-selector")) {
         } else {
             rInput.value = ""
         }
+
+        let rMessage = document.getElementById("r-invalid")
+        if (rMessage) {
+            rMessage.remove()
+        }
     })
 }
 
@@ -36,19 +55,14 @@ for (let rSelector of document.getElementsByClassName("r-selector")) {
 form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const yValidy = yInput.value.length !== 0
     const rValidy = rInput.value.length !== 0
+    const yValidy = yErrorMessage.innerHTML.length === 0 && yInput.value.length
 
-    if (!yValidy || !rValidy) {
+    if (!rValidy || !yValidy) {
         animateInvalid(form, animationDuration)
-        if (!yValidy) {
-            yInput.setAttribute("placeholder", "enter value")
-        }
-        if (!rValidy) {
-            if (!rInput.classList.contains("invalid")) {
-                rInput.insertAdjacentHTML("afterend", '<sub class="invalid-message" id="r-invalid">value must be presented</sub>')
-                rInput.classList.add("invalid")
-            }
+        if (!rValidy && !rInput.classList.contains("invalid")) {
+            rInput.insertAdjacentHTML("afterend", '<sub class="invalid-message" id="r-invalid">value must be presented</sub>')
+            rInput.classList.add("invalid")
         }
         return
     }
@@ -68,7 +82,7 @@ form.addEventListener("reset", () => {
     const selected = document.querySelector(".r-selector.selected")
     if (selected) { selected.classList.remove("selected") }
 
-    yInput.setAttribute("placeholder", "-3 ≤ y ≤ 5")
+    yErrorMessage.innerHTML = ""
     rInput.classList.remove("invalid")
 });
 

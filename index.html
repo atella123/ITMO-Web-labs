@@ -6,7 +6,7 @@
     <title>ABOBA🤣</title>
     <link href="favicon.ico" rel="icon">
     <script src="scripts/draw_graphics.js"></script>
-    <script type="module" src="/scripts/utils.js"></script>
+    <script type="module" src="scripts/utils.js"></script>
     <script defer type="module" src="main.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500&display=swap');
@@ -69,7 +69,7 @@
         button,
         select {
             color: black;
-            margin: 1em 0 0.5em 0;
+            margin: 5% 0;
             border: none;
             border-radius: 0;
             font-size: 1.4rem;
@@ -123,7 +123,7 @@
         .grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            grid-template-rows: 1fr 1fr 2fr;
+            grid-template-rows: 1fr 1.8fr 1.8fr;
             align-items: start;
         }
 
@@ -265,7 +265,7 @@
 <body>
     <header class="display-flex space-evenly rect-bg">
         <p>Полушкин М.Ю.</p>
-        <p>P3132</p>
+        <p>P32301</p>
         <p>Вариант 32301</p>
     </header>
     <section class="display-flex" id="main-section">
@@ -285,7 +285,11 @@
                     <option value="5">5</option>
                 </select>
                 <label for="y">y value:</label>
-                <input type="text" placeholder="-3 ≤ y ≤ 5" name="y" class="form-input" id="y-input">
+                <div>
+                    <input type="text" placeholder="-3 ≤ y ≤ 5" name="y" class="form-input" id="y-input">
+                    <br>
+                    <sup id="y-error-message" class="invalid"></sup>
+                </div>
                 <label for="r">R value:</label>
                 <div>
                     <div class="display-flex even-items form-input gap-half">

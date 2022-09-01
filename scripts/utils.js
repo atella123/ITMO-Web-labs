@@ -20,12 +20,10 @@ export function sendForm(form, table, failAnimationDuration) {
 
             table.insertAdjacentHTML("beforeend", tableRows[1])
         })
+        .catch(() => {
+            alert("error!")
+        })
 }
-
-export function removeLastChar(str) {
-    return str.substring(0, str.length - 1)
-}
-
 
 export function animateInvalid(element, animationDuration) {
     element.animate(

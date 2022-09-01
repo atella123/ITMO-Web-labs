@@ -27,7 +27,7 @@
             $x = $_GET["x"];
             $y = $_GET["y"];
             $r = $_GET["r"];
-
+            
             if (filter_var($x, FILTER_VALIDATE_FLOAT) === false) {
                 header(":", true, 400);
                 exit();
