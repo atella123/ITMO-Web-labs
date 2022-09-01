@@ -44,11 +44,11 @@
         <tr>
             <?php
             $startTime = microtime(true);
-            $x = $_GET["x"];
-            $y = $_GET["y"];
-            $r = $_GET["r"];
+            $x = substr($_GET["x"], 0, 10);
+            $y = substr($_GET["y"], 0, 10);
+            $r = substr($_GET["r"], 0, 10);
             
-            if (filter_var($x, FILTER_VALIDATE_FLOAT) === false) {
+            if (!is_numeric($x)) {
                 header(":", true, 400);
                 exit();
             }
@@ -59,17 +59,17 @@
                 exit();
             }
 
-            if (filter_var($y, FILTER_VALIDATE_FLOAT) === false) {
+            if (!is_numeric($y)) {
                 header(":", true, 400);
                 exit();
             }
 
-            if ($y < -3 || $y > 5) {
+            if ($y <= -3 || $y >= 5) {
                 header(":", true, 400);
                 exit();
             }
 
-            if (filter_var($r, FILTER_VALIDATE_FLOAT) === false) {
+            if (!is_numeric($r)) {
                 header(":", true, 400);
                 exit();
             }
@@ -86,7 +86,7 @@
             $currentTime = date("G:i:s");
             $completionTime = microtime(true) - $startTime;
 
-            echo "<td>$x</td>\r\n<td>$y</td>\r\n<td>$r</td>\r\n<td class=\"$result_class\">$result_string</td>\r\n<td>$completionTime</td>\r\n<td>$currentTime GMT</td>\r\n"
+            echo "<td>$x</td>\r\n<td>$y</td>\r\n<td>$r</td>\r\n<td class=\"$result_class\">$result_string</td>\r\n<td>$completionTime</td>\r\n<td>$currentTime GMT</td>\r\n";
             ?>
         </tr>
         </tbody>

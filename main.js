@@ -24,7 +24,7 @@ yInput.addEventListener("change", (event) => {
         return
     }
 
-    if (yNumValue < minY || yNumValue > maxY) {
+    if (yNumValue <= minY || yNumValue >= maxY) {
         yErrorMessage.innerHTML = "y value must be between -3 and 5"
         return
     }
@@ -67,8 +67,19 @@ form.addEventListener("submit", (event) => {
         return
     }
 
-    sendForm(form, tableBody, animationDuration);
-    document.getElementById("result-table").hidden = false
+    sendForm(form)
+    .then((response) => {
+        const tableRows = response.match(/<tr>\s*((.|\s)*?)\s*<\/tr>/g)
+
+        if (!tableRows || !tableRows.length > 1) {
+            animateInvalid(form, failAnimationDuration)
+            alert("Invalid server response")
+            return
+        }
+
+        document.getElementById("result-table").hidden = false
+        tableBody.insertAdjacentHTML("beforeend", tableRows[1])
+    })
 });
 
 form.addEventListener("reset", () => {

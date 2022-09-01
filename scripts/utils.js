@@ -1,24 +1,13 @@
-export function sendForm(form, table, failAnimationDuration) {
+export function sendForm(form) {
     const formData = new FormData(form)
 
-    fetch(`script.php?x=${formData.get("x")}&y=${formData.get("y")}&r=${formData.get("r")}`)
+    return fetch(`script.php?x=${formData.get("x")}&y=${formData.get("y")}&r=${formData.get("r")}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             return response.text();
-        })
-        .then((response) => {
-            const tableRows = response.match(/<tr>\s*((.|\s)*?)\s*<\/tr>/g)
-
-            if (!tableRows || !tableRows.length > 1) {
-                animateInvalid(form, failAnimationDuration)
-                alert("Invalid server response")
-                return
-            }
-
-            table.insertAdjacentHTML("beforeend", tableRows[1])
         })
         .catch(() => {
             alert("error!")
