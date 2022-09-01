@@ -5,15 +5,17 @@ const maxY = 5
 const form = document.getElementById("xyrForm")
 const rInput = document.getElementById("r-input")
 const yInput = document.getElementById("y-input")
-const table = document.getElementById("result-table")
+const tableBody = document.getElementById("result-table-body")
 const animationDuration = 700
 
-yInput.addEventListener("input", (changeEvent) => {
-    const newValue = changeEvent.target.value
-    const numericValue = Number(newValue)
-    if (isNaN(numericValue) || newValue < minY || newValue > maxY) {
-        changeEvent.target.value = removeLastChar(newValue)
-    }
+yInput.addEventListener("input", (event) => {
+    event.preventDefault()
+
+    // const newValue = event.target.value
+    // const numericValue = Number(newValue)
+    // if (isNaN(numericValue) || newValue < minY || newValue > maxY) {
+    //     event.target.value = removeLastChar(newValue)
+    // }
 });
 
 for (let rSelector of document.getElementsByClassName("r-selector")) {
@@ -51,7 +53,8 @@ form.addEventListener("submit", (event) => {
         return
     }
 
-    sendForm(form, table, animationDuration);
+    sendForm(form, tableBody, animationDuration);
+    document.getElementById("result-table").hidden = false
 });
 
 form.addEventListener("reset", () => {

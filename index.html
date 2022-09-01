@@ -22,12 +22,12 @@
             font-family: serif;
             padding: 0 1rem;
             margin: 0em 0em 2em;
-            font-size: calc(2rem + 1vw);
+            font-size: calc(1.5rem + 1vw);
         }
 
         table {
             border-collapse: collapse;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
 
         table td,
@@ -72,13 +72,13 @@
             margin: 1em 0 0.5em 0;
             border: none;
             border-radius: 0;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-family: 'Maven Pro', sans-serif;
         }
 
         input[type="button"] {
             aspect-ratio: 1;
-            border-radius: 40%;
+            border-radius: 1em;
             object-fit: scale-down;
             align-self: center;
         }
@@ -123,7 +123,7 @@
         .grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            grid-template-rows: 1fr 1fr 1.8fr;
+            grid-template-rows: 1fr 1fr 2fr;
             align-items: start;
         }
 
@@ -181,7 +181,7 @@
         }
 
         .r-selector:hover {
-            transform: translateY(-1px);
+            transform: translateY(-1px) rotate(5deg);
             box-shadow: 0 7px 15px rgb(0 0 0 / 15%);
         }
 
@@ -246,6 +246,14 @@
         }
 
         @media (min-width:95vh) {
+
+            label,
+            input,
+            button,
+            select {
+                font-size: 1.3rem;
+            }
+
             #main-section {
                 align-items: stretch;
                 flex-direction: row-reverse;
@@ -258,7 +266,7 @@
     <header class="display-flex space-evenly rect-bg">
         <p>Полушкин М.Ю.</p>
         <p>P3132</p>
-        <p>Вариант 3214</p>
+        <p>Вариант 32301</p>
     </header>
     <section class="display-flex" id="main-section">
         <img src="assets/areas.png" alt="areas" class="rect-bg round-bg default-padding" id="graph">
@@ -269,7 +277,7 @@
                     <option value="-3">-3</option>
                     <option value="-2">-2</option>
                     <option value="-1">-1</option>
-                    <option value="0">0</option>
+                    <option selected value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -298,14 +306,19 @@
     </section>
     <section class="display-flex">
         <table class="rect-bg round-bg default-padding" id="result-table" aria-describedby="requestResults" hidden>
-            <tr>
-                <th>x</th>
-                <th>y</th>
-                <th>R</th>
-                <th>Is inside?</th>
-                <th>Completion time</th>
-                <th>Current time</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>R</th>
+                    <th>Is inside?</th>
+                    <th>Completion time</th>
+                    <th>Current time</th>
+                </tr>
+            </thead>
+            <tbody id="result-table-body">
+
+            </tbody>
         </table>
     </section>
 </body>

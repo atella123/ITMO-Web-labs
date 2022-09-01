@@ -7,7 +7,18 @@
 </head>
 
 <body>
-    <table>
+    <table aria-describedby="result">
+        <thead>
+            <tr>
+                <th>x</th>
+                <th>y</th>
+                <th>R</th>
+                <th>Is inside?</th>
+                <th>Completion time</th>
+                <th>Current time</th>
+            </tr>
+        </thead>
+        </tbody>
         <tr>
             <?php
             include 'php-functions.php';
@@ -55,9 +66,10 @@
             $currentTime = date("G:i:s");
             $completionTime = microtime(true) - $startTime;
 
-            echo "<td>$x</td><td>$y</td><td>$r</td><td class=\"$result_class\">$result_string</td><td>$completionTime</td><td>$currentTime GMT</td>"
+            echo "<td>$x</td>\r\n<td>$y</td>\r\n<td>$r</td>\r\n<td class=\"$result_class\">$result_string</td>\r\n<td>$completionTime</td>\r\n<td>$currentTime GMT</td>\r\n"
             ?>
         </tr>
+        </tbody>
     </table>
 </body>
 

@@ -1,5 +1,3 @@
-const MS_TO_S = 10 ** 3
-
 export function sendForm(form, table, failAnimationDuration) {
     const formData = new FormData(form)
 
@@ -12,7 +10,7 @@ export function sendForm(form, table, failAnimationDuration) {
             return response.text();
         })
         .then((response) => {
-            const tableRows = response.match(/<tr>\s*?(.*?)\s*?<\/tr>/m)
+            const tableRows = response.match(/<tr>\s*((.|\s)*?)\s*<\/tr>/g)
 
             if (!tableRows || !tableRows.length > 1) {
                 animateInvalid(form, failAnimationDuration)
@@ -21,8 +19,6 @@ export function sendForm(form, table, failAnimationDuration) {
             }
 
             table.insertAdjacentHTML("beforeend", tableRows[1])
-
-            table.hidden = false
         })
 }
 
