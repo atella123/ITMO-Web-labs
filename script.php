@@ -49,34 +49,34 @@
             $r = substr($_GET["r"], 0, 10);
             
             if (!is_numeric($x)) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
             const X_VALUES = array(-3, -2, -1, 0, 1, 2, 3, 4, 5);
             if (!in_array($x, X_VALUES)) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
             if (!is_numeric($y)) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
             if ($y <= -3 || $y >= 5) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
             if (!is_numeric($r)) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
             const R_VALUES = array(1, 1.5, 2, 2.5, 3);
             if (!in_array($r, R_VALUES)) {
-                header(":", true, 400);
+                http_response_code(400);
                 exit();
             }
 
