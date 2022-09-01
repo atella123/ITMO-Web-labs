@@ -1,7 +1,7 @@
 export function sendForm(form, table, failAnimationDuration) {
     const formData = new FormData(form)
 
-    fetch(`/script.php?x=${formData.get("x")}&y=${formData.get("y")}&r=${formData.get("r")}`)
+    fetch(`script.php?x=${formData.get("x")}&y=${formData.get("y")}&r=${formData.get("r")}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

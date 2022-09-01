@@ -21,7 +21,7 @@
         </tbody>
         <tr>
             <?php
-            include 'php-functions.php';
+            include './php-functions.php';
 
             $startTime = microtime(true);
             $x = $_GET["x"];
