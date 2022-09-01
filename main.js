@@ -17,6 +17,11 @@ yInput.addEventListener("change", (event) => {
         return
     }
 
+    if (yInput.value.length > 10) {
+        yErrorMessage.innerHTML = "10 symbols max"
+        return
+    }
+
     const yNumValue = Number(yInput.value)
 
     if (isNaN(yNumValue)) {
@@ -56,7 +61,7 @@ form.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const rValidy = rInput.value.length !== 0
-    const yValidy = yErrorMessage.innerHTML.length === 0 && yInput.value.length
+    const yValidy = yErrorMessage.innerHTML.length === 0 && yInput.value.length > 0 && yInput.value.length <= 10
 
     if (!rValidy || !yValidy) {
         animateInvalid(form, animationDuration)
