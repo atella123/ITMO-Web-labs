@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class AreaCheckResponse implements Serializable {
 
-	private boolean valid;
 	private double x;
 	private double y;
 	private double r;
@@ -13,13 +12,8 @@ public class AreaCheckResponse implements Serializable {
 	private long currentTime;
 	private String color;
 
-	public AreaCheckResponse(boolean valid) {
-		this.valid = valid;
-	}
-
-	public AreaCheckResponse(boolean valid, double x, double y, double r, boolean result,
+	public AreaCheckResponse(double x, double y, double r, boolean result,
 			long completionTime, long currentTime, String color) {
-		this.valid = valid;
 		this.x = x;
 		this.y = y;
 		this.r = r;
@@ -27,10 +21,6 @@ public class AreaCheckResponse implements Serializable {
 		this.completionTime = completionTime;
 		this.currentTime = currentTime;
 		this.color = color;
-	}
-
-	public boolean isValid() {
-		return valid;
 	}
 
 	public double getX() {
@@ -59,10 +49,6 @@ public class AreaCheckResponse implements Serializable {
 
 	public String getColor() {
 		return color;
-	}
-
-	public void setValid(boolean valid) {
-		this.valid = valid;
 	}
 
 	public void setX(double x) {
@@ -97,7 +83,6 @@ public class AreaCheckResponse implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (valid ? 1231 : 1237);
 		long temp;
 		temp = Double.doubleToLongBits(x);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -108,6 +93,7 @@ public class AreaCheckResponse implements Serializable {
 		result = prime * result + (hit ? 1231 : 1237);
 		result = prime * result + (int) (completionTime ^ (completionTime >>> 32));
 		result = prime * result + (int) (currentTime ^ (currentTime >>> 32));
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		return result;
 	}
 
@@ -120,8 +106,6 @@ public class AreaCheckResponse implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AreaCheckResponse other = (AreaCheckResponse) obj;
-		if (valid != other.valid)
-			return false;
 		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
 			return false;
 		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
@@ -132,12 +116,13 @@ public class AreaCheckResponse implements Serializable {
 			return false;
 		if (completionTime != other.completionTime)
 			return false;
-		return currentTime == other.currentTime;
-	}
-
-	@Override
-	public String toString() {
-		return "AreaCheckResponse [valid=" + valid + ", x=" + x + ", y=" + y + ", r=" + r + ", hit=" + hit
-				+ ", completionTime=" + completionTime + ", currentTime=" + currentTime + "]";
+		if (currentTime != other.currentTime)
+			return false;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		return true;
 	}
 }

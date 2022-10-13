@@ -1,143 +1,84 @@
-import { sendData as sendData, animateInvalid } from "./utils.js"
+import { sendData, animateInvalid, createColor, easeOutBounce, createTextInputValidator } from "./utils.js"
 import { Canvas } from "./canvas.js"
+import { Input } from "./input.js"
 
-const minY = -3
-const maxY = 5
+const xConstraints = { min: -3, max: 5 }
+const yConstraints = { min: -5, max: 3 }
 const form = document.getElementById("xyrForm")
-const xInput = document.getElementById("x-input")
-const yInput = document.getElementById("y-input")
-const rInput = document.getElementById("r-input")
+const xInputEl = document.getElementById("x-input")
+const yInputEl = document.getElementById("y-input")
+const rInputEl = document.getElementById("r-input")
+const xErrorMessage = document.getElementById("x-error-message")
 const yErrorMessage = document.getElementById("y-error-message")
 const table = document.getElementById("result-table")
 const animationDuration = 700
-const canvas = new Canvas(document.getElementById("graph"), sendFormFromGraph, colorCreator)
+const canvas = new Canvas(document.getElementById("graph"), (data, canvas) => { sendFormFromGraph(data, canvas, createColor()) })
 let tableBody = document.getElementById("result-table-body")
 
 Canvas.font.load().then((font) => {
 	document.fonts.add(font)
 
-	redraw()
+	redraw(canvas, Number(rInputEl.value))
 })
 
-drawPoints(canvas)
+const xPredicate = (val) => val.length > 0 && Number(val) > xConstraints.min && Number(val) < xConstraints.max
+const yPredicate = (val) => val.length > 0 && Number(val) > yConstraints.min && Number(val) < yConstraints.max
+const rPredicate = () => true
+const xInput = new Input(xInputEl, xPredicate, createTextInputValidator(xPredicate, xErrorMessage, "x value must be a number between -3 and 5"))
+const yInput = new Input(yInputEl, yPredicate, createTextInputValidator(yPredicate, yErrorMessage, "x value must be a number between -5 and 3"))
+const rInput = new Input(rInputEl, rPredicate, (n, o) => animateRadiusChange(Number(n), Number(o)))
 
-function colorCreator() {
-	const randomColorVal = () => { return Math.round(Math.random() * 255) }
-	return `hsl(${randomColorVal()},100%,40%)`
-}
+drawPoints(canvas, Number(rInputEl.value))
 
-function redraw() {
+function redraw(canvas, radius) {
 	canvas.redraw()
-	drawPoints(canvas)
+	drawPoints(canvas, radius)
 }
 
-for (let rSelector of document.getElementsByClassName("r-selector")) {
-	rSelector.addEventListener("click", () => {
-		const selected = document.querySelector(".r-selector.selected")
-		if (selected) { selected.classList.remove("selected") }
+function animateRadiusChange(newVal, oldVal) {
+	const frameCount = 100
+	let val = oldVal
+	let currentFrameCount = 0
 
-		let rMessage = document.getElementById("r-invalid")
-		if (rMessage) {
-			rMessage.remove()
-		}
-
-		const frameCount = 60
-		let val = Number(rInput.value)
-		const selectedVal = selected ? Number(selected.value) : 0
-		const newVal = rSelector != selected ? Number(rSelector.value) : 0
-		let currentFrameCount = 0
-
-		const f = () => {
-			if (currentFrameCount++ > frameCount) {
-				return
-			}
-
-			val = selectedVal + easeOutBounce(currentFrameCount / frameCount) * (newVal - selectedVal)
-			rInput.value = val
-			redraw()
-
-			window.requestAnimationFrame(f)
-		}
-
-		if (selected == rSelector) {
-			rInput.value = ""
-			f()
+	const f = () => {
+		if (currentFrameCount++ == frameCount) {
+			redraw(canvas, newVal)
 			return
 		}
 
-		rSelector.classList.add("selected")
-		rInput.value = rSelector.value
-		f()
-	})
+		console.log(val)
+
+		val = oldVal + easeOutBounce(currentFrameCount / frameCount) * (newVal - oldVal)
+		redraw(canvas, val)
+
+		window.requestAnimationFrame(f)
+	}
+
+	f()
 }
 
-function easeOutBounce(x) {
-	const n1 = 7.5625;
-	const d1 = 2.75;
-
-	if (x < 1 / d1) {
-		return n1 * x * x;
-	}
-	if (x < 2 / d1) {
-		return n1 * (x -= 1.5 / d1) * x + 0.75;
-	}
-	if (x < 2.5 / d1) {
-		return n1 * (x -= 2.25 / d1) * x + 0.9375;
-	}
-	return n1 * (x -= 2.625 / d1) * x + 0.984375;
-}
-
-yInput.addEventListener("change", (event) => {
-	if (yInput.value.length === 0) {
-		yErrorMessage.innerHTML = "y value must be present"
-		animateInvalid(form, animationDuration)
-		return
-	}
-
-	if (yInput.value.length > 10) {
-		yErrorMessage.innerHTML = "10 symbols max"
-		animateInvalid(form, animationDuration)
-		return
-	}
-
-	const yNumValue = Number(yInput.value)
-
-	if (isNaN(yNumValue)) {
-		yErrorMessage.innerHTML = "y value must be a number"
-		animateInvalid(form, animationDuration)
-		return
-	}
-
-	if (yNumValue <= minY || yNumValue >= maxY) {
-		yErrorMessage.innerHTML = "y value must be between -3 and 5"
-		animateInvalid(form, animationDuration)
-		return
-	}
-
-	yErrorMessage.innerHTML = ""
-});
-
-function drawPoints(canvas) {
+function drawPoints(canvas, rval) {
 	for (let point of tableBody.children) {
 		const x = Number(point.querySelector(".response-x").innerHTML.trim())
 		const y = Number(point.querySelector(".response-y").innerHTML.trim())
 		const color = point.querySelector(".response-color").innerHTML.trim()
 
-		canvas.drawPoint(x, y, Number(rInput.value), color)
+		canvas.drawPoint(x, y, rval, color)
 	}
 }
 
-function sendFormFromGraph(data, canvas) {
-	if (rInput.value.length === 0) {
+function sendFormFromGraph(data, canvas, color) {
+	if (rInputEl.value.length === 0) {
 		return
 	}
 
-	data.r = Number(rInput.value)
+	data.r = Number(rInputEl.value)
 
 	const pointCoords = canvas.canvasCoordsToPointCoords(data.x, data.y, data.r)
 
 	data.x = pointCoords.x
 	data.y = pointCoords.y
+	data.color = color
 
 	sendForm(data, canvas)
 }
@@ -169,7 +110,7 @@ function sendForm(data, canvas) {
 			cell.classList.add("response-result")
 
 			cell = row.insertCell()
-			cell.innerHTML = response.completionTime
+			cell.innerHTML = response.completionTime + " ns"
 			cell.classList.add("response-compltionTime")
 
 			cell = row.insertCell()
@@ -193,34 +134,17 @@ function sendForm(data, canvas) {
 form.addEventListener("submit", (event) => {
 	event.preventDefault();
 
-	const rValidy = rInput.value.length !== 0
-	const yValidy = yErrorMessage.innerHTML.length === 0 && yInput.value.length > 0 && yInput.value.length <= 10
-
-	if (!rValidy || !yValidy) {
+	if (!xInput.hasVaildValue() || !yInput.hasVaildValue() || !rInput.hasVaildValue()) {
 		animateInvalid(form, animationDuration)
-		if (!rValidy && !rInput.classList.contains("invalid")) {
-			rInput.insertAdjacentHTML("afterend", '<sub class="invalid-message" id="r-invalid">value must be presented</sub>')
-			rInput.classList.add("invalid")
-		}
 		return
 	}
 
-	const data = { x: Number(xInput.value), y: Number(yInput.value), r: Number(yInput.value), color: colorCreator() }
+	const data = { x: Number(xInputEl.value), y: Number(yInputEl.value), r: Number(yInputEl.value), color: createColor() }
 
 	sendForm(data, canvas)
-});
+})
 
 form.addEventListener("reset", () => {
-	rInput.value = ""
-
-	let rMessage = document.getElementById("r-invalid")
-	if (rMessage) {
-		rMessage.remove()
-	}
-
-	const selected = document.querySelector(".r-selector.selected")
-	if (selected) { selected.classList.remove("selected") }
-
+	xErrorMessage.innerHTML = ""
 	yErrorMessage.innerHTML = ""
-	rInput.classList.remove("invalid")
-});
+})

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
 
 body {
 	margin: 0;
@@ -86,6 +86,10 @@ header>p {
 	text-align: center;
 }
 
+.margin-auto {
+	margin: auto;
+}
+
 .display-flex {
 	display: flex;
 	justify-content: center;
@@ -94,6 +98,14 @@ header>p {
 
 .flex-column {
 	flex-direction: column;
+}
+
+.no-wrap {
+	flex-wrap: nowrap;
+}
+
+.space-between {
+	justify-content: space-between;
 }
 
 .even-items>* {
@@ -111,8 +123,8 @@ header>p {
 .grid {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
-	grid-template-rows: 1fr 1.8fr 1.8fr;
-	align-items: start;
+	grid-template-rows: 1fr 1fr 1fr;
+	align-items: center;
 }
 
 .rect-bg {
@@ -143,6 +155,10 @@ header>p {
 	box-shadow: 0 12px 15px rgb(0 0 0 / 20%);
 }
 
+.form-input {
+	margin-left: 0.5em;
+}
+
 .hit {
 	background: rgba(0, 193, 0, 0.2);
 }
@@ -152,15 +168,16 @@ header>p {
 }
 
 .invalid-message {
-	color: rgba(255, 0, 0, 0.918);
-	vertical-align: text-top;
+	color: rgba(255, 0, 0, 0.795);
+	font-size: 0.8em;
+	mix-blend-mode: hard-light;
 }
 
 .default-padding {
 	padding: 1.5rem;
 }
 
-.r-selector {
+.button-selector {
 	box-sizing: border-box;
 	box-shadow: 0 5px 17px rgb(0 0 0 / 15%);
 	background-color: rgba(28, 255, 122, 0.459);
@@ -168,12 +185,12 @@ header>p {
 	transition-property: background-color, transform, box-shadow;
 }
 
-.r-selector:hover {
+.button-selector:hover {
 	transform: translateY(-1px) rotate(5deg);
 	box-shadow: 0 7px 15px rgb(0 0 0 / 15%);
 }
 
-.r-selector.selected {
+.button-selector.selected {
 	transform: translateY(-2px);
 	background-color: rgba(0, 255, 200, 0.664);
 	box-shadow: 0 8px 12px rgb(0 0 0 / 15%);
@@ -224,12 +241,16 @@ header>p {
 		background-color: rgba(0, 255, 106, 0.582);
 	}
 
-	.r-selector {
+	.button-selector {
 		background-color: rgba(0, 255, 106, 0.582);
 	}
 
-	.r-selector.selected {
+	.button-selector.selected {
 		background-color: rgba(0, 255, 200, 0.863);
+	}
+
+	.invalid-message {
+		color: rgb(0, 231, 255);
 	}
 }
 

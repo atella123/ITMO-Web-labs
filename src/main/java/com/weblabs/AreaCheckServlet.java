@@ -2,13 +2,13 @@ package com.weblabs;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
-import com.weblabs.area.AreaFunction;
+import com.google.gson.GsonBuilder;
+import com.weblabs.area.Config;
 import com.weblabs.area.check.AreaChecker;
+import com.weblabs.area.gson.AreaCheckRequestDeserializer;
 import com.weblabs.area.requests.AreaCheckRequest;
 import com.weblabs.area.requests.AreaCheckResponse;
 import com.weblabs.beans.Requests;
@@ -22,24 +22,19 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "AreaCheckServlet")
 public class AreaCheckServlet extends HttpServlet {
 
-	final transient Gson gson;
-	static final Collection<AreaFunction> areas = Arrays.asList(
-			(x, y, r) -> // rectange area
-			x < 0 && x > -r / 2 && y > 0 && y < r,
-			(x, y, r) -> // triangle area
-			x > 0 && y > 0 && x - r < -y,
-			(x, y, r) -> // Circle area
-			x < 0 && y < 0 && x * x + y * y < r * r);
+	private final transient Gson gson;
 
 	public AreaCheckServlet() {
-		this.gson = new Gson();
+		this.gson = new GsonBuilder()
+				.registerTypeAdapter(AreaCheckRequest.class, new AreaCheckRequestDeserializer())
+				.create();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		long start = Instant.now().toEpochMilli();
+		long startTimeNano = System.nanoTime();
 
 		String reqBody = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 		AreaCheckRequest areaCheckReq = gson.fromJson(reqBody, AreaCheckRequest.class);
@@ -49,12 +44,15 @@ public class AreaCheckServlet extends HttpServlet {
 			return;
 		}
 
-		boolean result = AreaChecker.check(areaCheckReq.getX(), areaCheckReq.getY(), areaCheckReq.getR(), areas);
+		boolean result = AreaChecker.check(areaCheckReq.getX(), areaCheckReq.getY(), areaCheckReq.getR(),
+				Config.getAreas());
 
-		long end = Instant.now().toEpochMilli();
+		Instant endTime = Instant.now();
 
-		AreaCheckResponse areaCheckResp = new AreaCheckResponse(true, areaCheckReq.getX(), areaCheckReq.getY(),
-				areaCheckReq.getR(), result, end - start, end, areaCheckReq.getColor());
+		AreaCheckResponse areaCheckResp = new AreaCheckResponse(areaCheckReq.getX(), areaCheckReq.getY(),
+				areaCheckReq.getR(), result,
+				System.nanoTime() - startTimeNano, endTime.toEpochMilli(),
+				areaCheckReq.getColor());
 
 		Requests rq = (Requests) getServletContext().getAttribute("result");
 		rq.getResponses().add(areaCheckResp);

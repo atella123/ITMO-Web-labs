@@ -14,7 +14,7 @@ export async function sendData(data) {
 			return response.text();
 		})
 		.catch(() => {
-			alert("error!")
+			alert("error when trying to submit request!")
 		})
 }
 
@@ -33,4 +33,34 @@ export function animateInvalid(element, animationDuration) {
 		],
 		{ duration: animationDuration }
 	)
+}
+
+export function createColor() {
+	const randomColorVal = () => { return Math.round(Math.random() * 255) }
+	return `hsl(${randomColorVal()},100%,40%)`
+}
+
+export function easeOutBounce(x) {
+	const n1 = 7.5625;
+	const d1 = 2.75;
+
+	if (x < 1 / d1) {
+		return n1 * x * x;
+	}
+	if (x < 2 / d1) {
+		x -= 1.5 / d1
+		return n1 * x * x + 0.75;
+	}
+	if (x < 2.5 / d1) {
+		x -= 2.25 / d1
+		return n1 * x * x + 0.9375;
+	}
+	x -= 2.625 / d1
+	return n1 * x * x + 0.984375;
+}
+
+export function createTextInputValidator(predicate, errorMsgElem, errorMsg) {
+	return (newValue, oldValue) => predicate(newValue)
+		? errorMsgElem.innerText = ""
+		: errorMsgElem.innerText = errorMsg
 }

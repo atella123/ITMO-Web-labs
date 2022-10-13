@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import com.weblabs.area.Config;
+import com.weblabs.area.gson.AreaCheckRequestDeserializer;
 import com.weblabs.area.requests.AreaCheckRequest;
 
 import jakarta.servlet.RequestDispatcher;
@@ -17,7 +20,13 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = "/")
 public class ControllerServlet extends HttpServlet {
 
-	private final transient Gson gson = new Gson();
+	private final transient Gson gson;
+
+	public ControllerServlet() {
+		this.gson = new GsonBuilder()
+				.registerTypeAdapter(AreaCheckRequest.class, new AreaCheckRequestDeserializer())
+				.create();
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -56,7 +65,21 @@ public class ControllerServlet extends HttpServlet {
 				resp.sendError(400, "Unable to parse JSON: color value not provided");
 				return;
 			}
-
+			if (!Config.checkXValidity(areaCheckRequest.getX())) {
+				resp.sendError(400, String.format("%f is not valid x value",
+						areaCheckRequest.getX()));
+				return;
+			}
+			if (!Config.checkYValidity(areaCheckRequest.getY())) {
+				resp.sendError(400, String.format("%f is not valid y value",
+						areaCheckRequest.getY()));
+				return;
+			}
+			if (!Config.checkRValidity(areaCheckRequest.getR())) {
+				resp.sendError(400, String.format("%f is not valid r value",
+						areaCheckRequest.getR()));
+				return;
+			}
 		} catch (JsonParseException | NumberFormatException e) {
 			resp.sendError(400, String.format("Unable to parse JSON: %s", e.getLocalizedMessage()));
 			return;

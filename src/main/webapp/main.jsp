@@ -10,8 +10,9 @@
 	<title>AAAAAAAAAAA🤣</title>
 	<link href="<%= request.getContextPath() %>/static/favicon.ico" rel="icon">
 	<script type="module" src="<%= request.getContextPath() %>/static/scripts/utils.js"></script>
-	<script defer type="module" src="<%= request.getContextPath() %>/static/scripts/main.js"></script>
-	<script defer type="module" src="<%= request.getContextPath() %>/static/scripts/canvas.js"></script>
+	<script type="module" src="<%= request.getContextPath() %>/static/scripts/input.js"></script>
+	<script type="module" src="<%= request.getContextPath() %>/static/scripts/main.js" defer></script>
+	<script type="module" src="<%= request.getContextPath() %>/static/scripts/canvas.js" defer></script>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/static/styles/style.css">
 </head>
 
@@ -23,37 +24,28 @@
 	</header>
 	<section class="display-flex" id="main-section">
 		<canvas class="rect-bg round-bg default-padding" id="graph" width="450" height="450"></canvas>
-		<form class="rect-bg round-bg default-padding" id="xyrForm">
+		<form class="rect-bg round-bg default-padding display-flex flex-column no-wrap space-between" id="xyrForm">
 			<div class="grid">
 				<label for="x">x value:</label>
-				<select name="x" class="form-input" id="x-input">
-					<option value="-3">-3</option>
-					<option value="-2">-2</option>
-					<option value="-1">-1</option>
-					<option selected value="0">0</option>
-					<option value="1">1</option>
+				<div>
+					<input type="text" placeholder="-3 < x < 5" name="x" class="form-input" id="x-input" maxlength="10">
+					<br>
+					<span class="margin-auto invalid-message" id="x-error-message"></span>
+				</div>
+				<label for="y">y value:</label>
+				<div>
+					<input type="text" placeholder="-5 < y < 3" name="y" class="form-input" id="y-input" maxlength="10">
+					<br>
+					<span class="margin-auto invalid-message" id="y-error-message"></span>
+				</div>
+				<label for="r">R value:</label>
+				<select name="r" class="form-input" id="r-input">
+					<option value="1" selected="selected">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
 					<option value="4">4</option>
 					<option value="5">5</option>
 				</select>
-				<label for="y">y value:</label>
-				<div>
-					<input type="text" placeholder="-3 < y > 5" name="y" class="form-input" id="y-input" maxlength="10">
-					<br>
-					<sup id="y-error-message" class="invalid"></sup>
-				</div>
-				<label for="r">R value:</label>
-				<div>
-					<div class="display-flex even-items form-input gap-half">
-						<input type="button" class="r-selector" value="1">
-						<input type="button" class="r-selector" value="1.5">
-						<input type="button" class="r-selector" value="2">
-						<input type="button" class="r-selector" value="2.5">
-						<input type="button" class="r-selector" value="3">
-					</div>
-					<input type="hidden" name="r" id="r-input">
-				</div>
 			</div>
 			<div class="display-flex space-evenly flex-wrap">
 				<button class="form-button rect-bg" type="submit">check</button>
@@ -94,7 +86,7 @@
 							${resp.isHit() ? "Yes!" : "No"}
 						</td>
 						<td class="response-completion-time">
-							${resp.getCompletionTime()}
+							${resp.getCompletionTime()} ns
 						</td>
 						<td class="response-color" hidden>
 							${resp.getColor()}

@@ -12,9 +12,9 @@ export class Canvas {
 	#restrictions
 	#canvasCenter
 
-	constructor(canvas, requestDispatcher, colorCreator) {
-		this.#canvas = canvas
-		this.#ctx = canvas.getContext("2d")
+	constructor(canvasElement, onClick) {
+		this.#canvas = canvasElement
+		this.#ctx = canvasElement.getContext("2d")
 		this.#pointSize = 5
 
 		this.#width = Math.min(this.#canvas.width, this.#canvas.height)
@@ -22,22 +22,22 @@ export class Canvas {
 
 		this.#restrictions = {
 			x: {
-				min: (canvas.offsetWidth - canvas.width) / 2,
-				max: canvas.offsetWidth - (canvas.offsetWidth - canvas.width) / 2,
+				min: (canvasElement.offsetWidth - canvasElement.width) / 2,
+				max: canvasElement.offsetWidth - (canvasElement.offsetWidth - canvasElement.width) / 2,
 			},
 			y: {
-				min: (canvas.offsetHeight - canvas.height) / 2,
-				max: canvas.offsetHeight - (canvas.offsetHeight - canvas.height) / 2
+				min: (canvasElement.offsetHeight - canvasElement.height) / 2,
+				max: canvasElement.offsetHeight - (canvasElement.offsetHeight - canvasElement.height) / 2
 			}
 		}
 
 		this.#canvasCenter = {
-			x: canvas.offsetWidth / 2,
-			y: canvas.offsetHeight / 2,
+			x: canvasElement.offsetWidth / 2,
+			y: canvasElement.offsetHeight / 2,
 		}
 
 		this.#draw()
-		canvas.addEventListener("click", this.#createEventListener(requestDispatcher, colorCreator))
+		canvasElement.addEventListener("click", this.#createEventListener(onClick))
 	}
 
 	drawPoint(x, y, r, color) {
@@ -193,7 +193,7 @@ export class Canvas {
 		this.#ctx.fillStyle = oldColor
 	}
 
-	#createEventListener(requestDispatcher, colorCreator) {
+	#createEventListener(onClick) {
 		const restrictions = this.#restrictions
 		const canvasCenter = this.#canvasCenter
 		const obj = this
@@ -209,7 +209,7 @@ export class Canvas {
 				return
 			}
 
-			requestDispatcher({ x: pointCoords.x, y: pointCoords.y, r: 0, color: colorCreator() }, obj);
+			onClick({ x: pointCoords.x, y: pointCoords.y, r: 0 }, obj);
 		}
 	}
 }
