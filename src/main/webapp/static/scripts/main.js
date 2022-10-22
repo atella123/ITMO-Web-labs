@@ -12,7 +12,7 @@ const xErrorMessage = document.getElementById("x-error-message")
 const yErrorMessage = document.getElementById("y-error-message")
 const table = document.getElementById("result-table")
 const animationDuration = 700
-const canvas = new Canvas(document.getElementById("graph"), (data, canvas) => { sendFormFromGraph(data, canvas, createColor()) })
+const canvas = new Canvas(document.getElementById("graph"), 16, (data, canvas) => { sendFormFromGraph(data, canvas, createColor()) })
 let tableBody = document.getElementById("result-table-body")
 
 Canvas.font.load().then((font) => {
@@ -21,12 +21,12 @@ Canvas.font.load().then((font) => {
 	redraw(canvas, Number(rInputEl.value))
 })
 
-const xPredicate = (val) => val.length > 0 && Number(val) > xConstraints.min && Number(val) < xConstraints.max
-const yPredicate = (val) => val.length > 0 && Number(val) > yConstraints.min && Number(val) < yConstraints.max
-const rPredicate = () => true
-const xInput = new Input(xInputEl, xPredicate, createTextInputValidator(xPredicate, xErrorMessage, "x value must be a number between -3 and 5"))
-const yInput = new Input(yInputEl, yPredicate, createTextInputValidator(yPredicate, yErrorMessage, "x value must be a number between -5 and 3"))
-const rInput = new Input(rInputEl, rPredicate, (n, o) => animateRadiusChange(Number(n), Number(o)))
+// const xPredicate = (val) => val.length > 0 && Number(val) > xConstraints.min && Number(val) < xConstraints.max
+// const yPredicate = (val) => val.length > 0 && Number(val) > yConstraints.min && Number(val) < yConstraints.max
+// const rPredicate = () => true
+// const xInput = new Input(xInputEl, xPredicate, createTextInputValidator(xPredicate, xErrorMessage, "x value must be a number between -3 and 5"))
+// const yInput = new Input(yInputEl, yPredicate, createTextInputValidator(yPredicate, yErrorMessage, "x value must be a number between -5 and 3"))
+// const rInput = new Input(rInputEl, rPredicate, (n, o) => animateRadiusChange(Number(n), Number(o)))
 
 drawPoints(canvas, Number(rInputEl.value))
 
@@ -131,18 +131,18 @@ function sendForm(data, canvas) {
 	})
 }
 
-form.addEventListener("submit", (event) => {
-	event.preventDefault();
+// form.addEventListener("submit", (event) => {
+// 	event.preventDefault();
 
-	if (!xInput.hasVaildValue() || !yInput.hasVaildValue() || !rInput.hasVaildValue()) {
-		animateInvalid(form, animationDuration)
-		return
-	}
+// 	if (!xInput.hasVaildValue() || !yInput.hasVaildValue() || !rInput.hasVaildValue()) {
+// 		animateInvalid(form, animationDuration)
+// 		return
+// 	}
 
-	const data = { x: Number(xInputEl.value), y: Number(yInputEl.value), r: Number(yInputEl.value), color: createColor() }
+// 	const data = { x: Number(xInputEl.value), y: Number(yInputEl.value), r: Number(yInputEl.value), color: createColor() }
 
-	sendForm(data, canvas)
-})
+// 	sendForm(data, canvas)
+// })
 
 form.addEventListener("reset", () => {
 	xErrorMessage.innerHTML = ""

@@ -4,26 +4,31 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
 import com.weblabs.area.requests.AreaCheckResponse;
 
-public class Requests implements Serializable {
+@ManagedBean
+@ApplicationScoped
+public class Responses implements Serializable {
 
-	private List<AreaCheckResponse> responses;
+	private List<AreaCheckResponse> responseList;
 
-	public Requests() {
-		responses = new ArrayList<>();
+	public Responses() {
+		responseList = new ArrayList<>();
 	}
 
 	@Override
 	public String toString() {
-		return "Results [responses=" + responses + "]";
+		return "Results [responses=" + responseList + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((responses == null) ? 0 : responses.hashCode());
+		result = prime * result + ((responseList == null) ? 0 : responseList.hashCode());
 		return result;
 	}
 
@@ -35,21 +40,21 @@ public class Requests implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Requests other = (Requests) obj;
-		if (responses == null) {
-			if (other.responses != null)
+		Responses other = (Responses) obj;
+		if (responseList == null) {
+			if (other.responseList != null)
 				return false;
-		} else if (!responses.equals(other.responses))
+		} else if (!responseList.equals(other.responseList))
 			return false;
 		return true;
 	}
 
 	public List<AreaCheckResponse> getResponses() {
-		return responses;
+		return responseList;
 	}
 
 	public void setResponses(List<AreaCheckResponse> responses) {
-		this.responses = responses;
+		this.responseList = responses;
 	}
 
 }

@@ -86,6 +86,14 @@ header>p {
 	text-align: center;
 }
 
+a:link { text-decoration: none; }
+
+a:visited { text-decoration: none; }
+
+a:hover { text-decoration: none; }
+
+a:active { text-decoration: none; }
+
 .margin-auto {
 	margin: auto;
 }
@@ -177,7 +185,37 @@ header>p {
 	padding: 1.5rem;
 }
 
+.default-margin {
+	margin: 1.5rem;
+}
+
+.half-padding {
+	padding: 0.75rem;
+}
+
+.invalid {
+	color: red;
+}
+
+.bg-none {
+	background: none;
+}
+
+.aspect-ratio-1 {
+	aspect-ratio: 1;
+}
+
+.align-self-center {
+	align-self: center;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
 .button-selector {
+	color: black;
+	text-align: center;
 	box-sizing: border-box;
 	box-shadow: 0 5px 17px rgb(0 0 0 / 15%);
 	background-color: rgba(28, 255, 122, 0.459);
@@ -186,14 +224,20 @@ header>p {
 }
 
 .button-selector:hover {
-	transform: translateY(-1px) rotate(5deg);
-	box-shadow: 0 7px 15px rgb(0 0 0 / 15%);
+	transform: translateY(-10%);
+	box-shadow: 0 calc(8px - 10%) 15px rgb(0 0 0 / 15%);
 }
 
 .button-selector.selected {
 	transform: translateY(-2px);
 	background-color: rgba(0, 255, 200, 0.664);
 	box-shadow: 0 8px 12px rgb(0 0 0 / 15%);
+}
+
+.nav {
+	position: fixed;
+	bottom: 0;
+	right: 0;
 }
 
 #result-table {
@@ -210,25 +254,29 @@ header>p {
 	object-fit: contain;
 }
 
-.invalid {
-	color: red;
-}
-
 @media (prefers-color-scheme: dark) {
 	body {
 		color: rgb(242, 248, 248);
 		background: linear-gradient(25deg, #009Fc2, #50b377) fixed;
 		background-color: #24766B;
 	}
-
+	
 	label {
 		color: rgb(242, 248, 248);
 	}
-
+	
 	header>p {
 		color: #b3e7e7;
 	}
 
+	.nav svg {
+		fill: #f2f8f8;
+	}
+
+	.href {
+		color: rgb(242, 248, 248);	
+	}
+	
 	.rect-bg {
 		background-color: rgba(26, 94, 94, 0.7);
 	}

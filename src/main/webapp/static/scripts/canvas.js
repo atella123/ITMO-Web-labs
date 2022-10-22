@@ -5,6 +5,7 @@ export class Canvas {
 	})
 
 	#canvas
+	#fontSize
 	#ctx
 	#pointSize
 	#width
@@ -12,8 +13,9 @@ export class Canvas {
 	#restrictions
 	#canvasCenter
 
-	constructor(canvasElement, onClick) {
+	constructor(canvasElement, fontSize, onClick) {
 		this.#canvas = canvasElement
+		this.#fontSize = fontSize
 		this.#ctx = canvasElement.getContext("2d")
 		this.#pointSize = 5
 
@@ -71,28 +73,28 @@ export class Canvas {
 		this.#ctx.fillStyle = grd
 
 		// rect
-		this.#ctx.fillRect(width * 0.35, height * 0.2, width * 0.15, height * 0.3);
-		this.#ctx.strokeRect(width * 0.35, height * 0.2, width * 0.15, height * 0.3);
+		this.#ctx.fillRect(width * 0.2, height * 0.2, width * 0.3, height * 0.3);
+		this.#ctx.strokeRect(width * 0.2, height * 0.2, width * 0.3, height * 0.3);
 
 		// triangle
 		this.#ctx.beginPath()
-		this.#ctx.moveTo(width * 0.5, height * 0.2)
-		this.#ctx.lineTo(width * 0.8, height / 2)
+		this.#ctx.moveTo(width * 0.5, height * 0.8)
+		this.#ctx.lineTo(width * 0.2, height / 2)
 		this.#ctx.lineTo(width / 2, height / 2)
 		this.#ctx.fill()
 		this.#ctx.beginPath()
-		this.#ctx.moveTo(width * 0.5, height * 0.2)
-		this.#ctx.lineTo(width * 0.8, height / 2)
+		this.#ctx.moveTo(width * 0.5, height * 0.8)
+		this.#ctx.lineTo(width * 0.2, height / 2)
 		this.#ctx.lineTo(width / 2, height / 2)
 		this.#ctx.stroke()
 
 		// arc
 		this.#ctx.beginPath()
-		this.#ctx.arc(width / 2, height / 2, width / 2 * 0.6, Math.PI * 0.5, Math.PI)
+		this.#ctx.arc(width / 2, height / 2, width / 2 * 0.6, Math.PI * 1.5, 0)
 		this.#ctx.lineTo(width / 2, height / 2)
 		this.#ctx.fill()
 		this.#ctx.beginPath()
-		this.#ctx.arc(width / 2, height / 2, width / 2 * 0.6, Math.PI * 0.5, Math.PI)
+		this.#ctx.arc(width / 2, height / 2, width / 2 * 0.6, Math.PI * 1.5, 0)
 		this.#ctx.lineTo(width / 2, height / 2)
 		this.#ctx.stroke()
 
@@ -101,7 +103,7 @@ export class Canvas {
 		grd.addColorStop(1, "#0095B6")
 
 		const color = grd
-		this.#ctx.font = '16px Roboto mono'
+		this.#ctx.font = `${this.#fontSize}px Roboto mono`
 		this.#ctx.fillStyle = 'black'
 
 		// x axis
