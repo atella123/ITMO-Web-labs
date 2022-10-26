@@ -65,11 +65,13 @@ class InputButtons {
 
 		if (selected === this.#selectedButton) {
 			this.#selectedButton = null
+			this.#input.value = 0
 			return
 		}
 
 		selected.classList.add('selected')
 
 		this.#selectedButton = selected
+		this.#input.value = selected.innerText
 	}
 }

@@ -146,3 +146,8 @@ form.addEventListener("reset", () => {
 	xErrorMessage.innerHTML = ""
 	yErrorMessage.innerHTML = ""
 })
+
+function abobaaa() {
+	let a = aboba()
+	a.then(console.log)
+}

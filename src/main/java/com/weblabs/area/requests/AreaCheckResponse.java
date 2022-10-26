@@ -10,17 +10,15 @@ public class AreaCheckResponse implements Serializable {
 	private boolean hit;
 	private long completionTime;
 	private long currentTime;
-	private String color;
 
 	public AreaCheckResponse(double x, double y, double r, boolean result,
-			long completionTime, long currentTime, String color) {
+			long completionTime, long currentTime) {
 		this.x = x;
 		this.y = y;
 		this.r = r;
 		this.hit = result;
 		this.completionTime = completionTime;
 		this.currentTime = currentTime;
-		this.color = color;
 	}
 
 	public double getX() {
@@ -47,10 +45,6 @@ public class AreaCheckResponse implements Serializable {
 		return currentTime;
 	}
 
-	public String getColor() {
-		return color;
-	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -75,10 +69,6 @@ public class AreaCheckResponse implements Serializable {
 		this.currentTime = currentTime;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -93,7 +83,6 @@ public class AreaCheckResponse implements Serializable {
 		result = prime * result + (hit ? 1231 : 1237);
 		result = prime * result + (int) (completionTime ^ (completionTime >>> 32));
 		result = prime * result + (int) (currentTime ^ (currentTime >>> 32));
-		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		return result;
 	}
 
@@ -116,13 +105,12 @@ public class AreaCheckResponse implements Serializable {
 			return false;
 		if (completionTime != other.completionTime)
 			return false;
-		if (currentTime != other.currentTime)
-			return false;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		return true;
+		return currentTime == other.currentTime;
+	}
+
+	@Override
+	public String toString() {
+		return "AreaCheckResponse [x=" + x + ", y=" + y + ", r=" + r + ", hit=" + hit + ", completionTime="
+				+ completionTime + ", currentTime=" + currentTime + "]";
 	}
 }

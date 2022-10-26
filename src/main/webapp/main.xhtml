@@ -6,13 +6,14 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <head>
-	<meta charset="UTF-8" />
+	<meta charset=" UTF-8" />
 	<title>AAAAAAAAAAA🤣</title>
 	<link href="${request.getContextPath()}/static/favicon.ico" rel="icon" />
 	<h:outputScript name="/scripts/utils.js" />
 	<h:outputScript name="/scripts/input.js" />
 	<h:outputScript name="/scripts/canvas.js" />
 	<h:outputScript name="/scripts/main.js" target="body" />
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 	<link rel="stylesheet" href="${request.getContextPath()}/static/styles/style.css" />
 </head>
 
@@ -27,7 +28,7 @@
 			<div class="grid">
 				<h:outputLabel for="x">x value:</h:outputLabel>
 				<div>
-					<h:inputHidden name="x" class="form-input" id="x-input" />
+					<h:inputHidden value="#{responses.x}" name="x" class="form-input" id="x-input" />
 					<div class="display-grid gap-half" id="x-buttons">
 						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-4" />
 						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-3" />
@@ -42,13 +43,13 @@
 				</div>
 				<h:outputLabel for="y">y value:</h:outputLabel>
 				<div>
-					<h:inputText placeholder="-3 &lt; y &lt; 3" name="y" class="form-input" id="y-input"
-						maxlength="10" />
+					<h:inputText value="#{responses.y}" placeholder="-3 &lt; y &lt; 3" name="y" class="form-input"
+						id="y-input" maxlength="10" />
 					<br />
 					<span class="margin-auto invalid-message" id="y-error-message"></span>
 				</div>
 				<h:outputLabel for="r">R value:</h:outputLabel>
-				<h:selectOneMenu name="r" class="form-input" id="r-input">
+				<h:selectOneMenu value="#{responses.r}" name="r" class="form-input" id="r-input">
 					<f:selectItem itemValue="1" itemLabel="1" selected="selected" />
 					<f:selectItem itemValue="2" itemLabel="2" />
 					<f:selectItem itemValue="3" itemLabel="3" />
@@ -57,14 +58,16 @@
 				</h:selectOneMenu>
 			</div>
 			<div class="display-flex space-evenly flex-wrap">
-				<button class="form-button rect-bg" type="submit">check</button>
+				<h:commandButton acton="#{responses.addResponse}" class="form-button rect-bg" type="submit"
+					value="check"></h:commandButton>
+
 				<button class="form-button rect-bg" type="reset">reset</button>
 			</div>
 		</h:form>
 	</section>
 
 	<section class="display-flex">
-		<table class="rect-bg round-bg default-padding" id="result-table" aria-describedby="requestResults">
+		<table class="rect-bg round-bg default-padding" id="result-table" aria-describedby="responses">
 			<thead>
 				<tr>
 					<th>x</th>
@@ -89,6 +92,9 @@
 			</svg>
 		</h:commandLink>
 	</h:form>
+	<h:panelGroup id="panel-graph">
+		<p>#{responses.getResponseList()}</p>
+	</h:panelGroup>
 
 </h:body>
 
