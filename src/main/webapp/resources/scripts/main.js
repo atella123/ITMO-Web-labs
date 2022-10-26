@@ -1,13 +1,9 @@
-import { sendData, animateInvalid, createColor, easeOutBounce, createTextInputValidator } from "./utils.js"
-import { Canvas } from "./canvas.js"
-import { Input } from "./input.js"
-
-const xConstraints = { min: -3, max: 5 }
-const yConstraints = { min: -5, max: 3 }
+const yConstraints = { min: -3, max: 3 }
 const form = document.getElementById("xyrForm")
-const xInputEl = document.getElementById("x-input")
-const yInputEl = document.getElementById("y-input")
-const rInputEl = document.getElementById("r-input")
+const xInputEl = document.getElementById("xyrForm:x-input")
+const xButtons = document.querySelectorAll("#x-buttons a")
+const yInputEl = document.getElementById("xyrForm:y-input")
+const rInputEl = document.getElementById("xyrForm:r-input")
 const xErrorMessage = document.getElementById("x-error-message")
 const yErrorMessage = document.getElementById("y-error-message")
 const table = document.getElementById("result-table")
@@ -21,12 +17,18 @@ Canvas.font.load().then((font) => {
 	redraw(canvas, Number(rInputEl.value))
 })
 
-// const xPredicate = (val) => val.length > 0 && Number(val) > xConstraints.min && Number(val) < xConstraints.max
-// const yPredicate = (val) => val.length > 0 && Number(val) > yConstraints.min && Number(val) < yConstraints.max
-// const rPredicate = () => true
-// const xInput = new Input(xInputEl, xPredicate, createTextInputValidator(xPredicate, xErrorMessage, "x value must be a number between -3 and 5"))
-// const yInput = new Input(yInputEl, yPredicate, createTextInputValidator(yPredicate, yErrorMessage, "x value must be a number between -5 and 3"))
-// const rInput = new Input(rInputEl, rPredicate, (n, o) => animateRadiusChange(Number(n), Number(o)))
+const yPredicate = (val) => val.length > 0 && Number(val) > yConstraints.min && Number(val) < yConstraints.max
+const rPredicate = () => true
+const xInput = new InputButtons(xInputEl, Array.from(xButtons))
+const yInput = new Input(yInputEl, yPredicate, createTextInputValidator(yPredicate, yErrorMessage, "x value must be a number between -5 and 3"))
+const rInput = new Input(rInputEl, rPredicate, (n, o) => animateRadiusChange(Number(n), Number(o)))
+
+for (let button of xButtons) {
+	button.removeAttribute('onclick')
+	button.addEventListener('click', () => {
+		xInput.setValue(button.innerText)
+	})
+}
 
 drawPoints(canvas, Number(rInputEl.value))
 
@@ -131,18 +133,14 @@ function sendForm(data, canvas) {
 	})
 }
 
-// form.addEventListener("submit", (event) => {
-// 	event.preventDefault();
+form.addEventListener("submit", (event) => {
+	if (xInput.hasVaildValue() && yInput.hasVaildValue() && rInput.hasVaildValue()) {
+		return
+	}
 
-// 	if (!xInput.hasVaildValue() || !yInput.hasVaildValue() || !rInput.hasVaildValue()) {
-// 		animateInvalid(form, animationDuration)
-// 		return
-// 	}
-
-// 	const data = { x: Number(xInputEl.value), y: Number(yInputEl.value), r: Number(yInputEl.value), color: createColor() }
-
-// 	sendForm(data, canvas)
-// })
+	animateInvalid(form, animationDuration)
+	event.preventDefault();
+})
 
 form.addEventListener("reset", () => {
 	xErrorMessage.innerHTML = ""

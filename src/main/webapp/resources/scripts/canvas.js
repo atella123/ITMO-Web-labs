@@ -1,4 +1,4 @@
-export class Canvas {
+class Canvas {
 
 	static font = new FontFace('Roboto mono', 'url(https://fonts.gstatic.com/s/robotomono/v22/L0xuDF4xlVMF-BfR8bXMIhJHg45mwgGEFl0_Of2_ROW4.woff2)', {
 		weight: '900'

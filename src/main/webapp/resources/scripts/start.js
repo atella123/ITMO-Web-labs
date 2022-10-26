@@ -1,6 +1,3 @@
-import { Canvas } from "./canvas.js"
-import { Clock } from "./clock.js"
-
 const canvas = new Canvas(document.getElementById("graph"), 0, () => { })
 
 Canvas.font.load().then((font) => {

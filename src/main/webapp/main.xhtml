@@ -2,59 +2,64 @@
 
 <!DOCTYPE html
 	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
 <head>
 	<meta charset="UTF-8" />
 	<title>AAAAAAAAAAA🤣</title>
 	<link href="${request.getContextPath()}/static/favicon.ico" rel="icon" />
-	<script type="module" src="${request.getContextPath()}/static/scripts/utils.js"></script>
-	<script type="module" src="${request.getContextPath()}/static/scripts/input.js"></script>
-	<script type="module" src="${request.getContextPath()}/static/scripts/main.js" defer="defer"></script>
-	<script type="module" src="${request.getContextPath()}/static/scripts/canvas.js"></script>
+	<h:outputScript name="/scripts/utils.js" />
+	<h:outputScript name="/scripts/input.js" />
+	<h:outputScript name="/scripts/canvas.js" />
+	<h:outputScript name="/scripts/main.js" target="body" />
 	<link rel="stylesheet" href="${request.getContextPath()}/static/styles/style.css" />
 </head>
 
-<body>
+<h:body>
 	<header class="rect-bg display-flex">
 		<p>Main page</p>
 	</header>
 
 	<section class="display-flex" id="main-section">
 		<canvas class="rect-bg round-bg default-padding cursor-pointer" id="graph" width="450" height="450"></canvas>
-		<form class="rect-bg round-bg default-padding display-flex flex-column no-wrap space-between" id="xyrForm">
+		<h:form class="rect-bg round-bg default-padding display-flex flex-column no-wrap space-between" id="xyrForm">
 			<div class="grid">
-				<label for="x">x value:</label>
+				<h:outputLabel for="x">x value:</h:outputLabel>
 				<div>
-					<input type="text" placeholder="-3 &lt; x &lt; 5" name="x" class="form-input" id="x-input"
-						maxlength="10" />
-					<br />
-					<span class="margin-auto invalid-message" id="x-error-message"></span>
+					<h:inputHidden name="x" class="form-input" id="x-input" />
+					<div class="display-grid gap-half" id="x-buttons">
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-4" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-3" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-2" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="-1" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="0" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="1" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="2" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="3" />
+						<h:commandLink class="aspect-ratio-1 button-selector circle-bg half-padding" value="4" />
+					</div>
 				</div>
-				<label for="y">y value:</label>
+				<h:outputLabel for="y">y value:</h:outputLabel>
 				<div>
-					<input type="text" placeholder="-5 &lt; y &lt; 3" name="y" class="form-input" id="y-input"
+					<h:inputText placeholder="-3 &lt; y &lt; 3" name="y" class="form-input" id="y-input"
 						maxlength="10" />
 					<br />
 					<span class="margin-auto invalid-message" id="y-error-message"></span>
 				</div>
-				<label for="r">R value:</label>
-				<select name="r" class="form-input" id="r-input">
-					<option value="1" selected="selected">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-				</select>
+				<h:outputLabel for="r">R value:</h:outputLabel>
+				<h:selectOneMenu name="r" class="form-input" id="r-input">
+					<f:selectItem itemValue="1" itemLabel="1" selected="selected" />
+					<f:selectItem itemValue="2" itemLabel="2" />
+					<f:selectItem itemValue="3" itemLabel="3" />
+					<f:selectItem itemValue="4" itemLabel="4" />
+					<f:selectItem itemValue="5" itemLabel="5" />
+				</h:selectOneMenu>
 			</div>
 			<div class="display-flex space-evenly flex-wrap">
 				<button class="form-button rect-bg" type="submit">check</button>
 				<button class="form-button rect-bg" type="reset">reset</button>
 			</div>
-		</form>
-		<h:form class="rect-bg round-bg default-padding display-flex flex-column no-wrap space-between" id="testForm">
-			<h:inputText id="name" value="#{testBean.name}"></h:inputText>
-			<h:commandButton value="ABOBA"></h:commandButton>
 		</h:form>
 	</section>
 
@@ -75,16 +80,16 @@
 		</table>
 	</section>
 
-	<nav class="nav half-padding rect-bg round-bg default-margin">
-		<a href="${request.getContextPath()}">
+	<h:form class="nav half-padding rect-bg round-bg default-margin">
+		<h:commandLink id="nav-start" action="start">
 			<svg width="29" height="28" viewBox="0 0 29 28" fill="none"> -->
 				<path
 					d="M17.3688 22.7488H11.2228V15.1419C11.2228 14.5944 11.5903 14.2386 12.1378 14.2386H16.4655C17.013 14.2386 17.3688 14.5944 17.3688 15.1419V22.7488ZM3.78914 22.3431C3.78914 24.0268 4.84734 25.0447 6.58194 25.0447H22.0364C23.771 25.0447 24.8175 24.0268 24.8175 22.3431V13.4141L15.0286 5.20275C14.5727 4.81931 14.0306 4.82892 13.5844 5.20275L3.78914 13.4141V22.3431ZM0 11.814C0 12.4189 0.455153 12.935 1.19765 12.935C1.56163 12.935 1.886 12.7466 2.17217 12.5115L13.8119 2.7458C14.1267 2.46713 14.4958 2.46713 14.8127 2.7458L26.4462 12.5115C26.7248 12.7466 27.0492 12.935 27.4132 12.935C28.0863 12.935 28.6012 12.5171 28.6012 11.8428C28.6012 11.447 28.4482 11.1409 28.1515 10.8878L15.9544 0.635973C14.9522 -0.211991 13.6821 -0.211991 12.6703 0.635973L0.459372 10.8899C0.153045 11.1451 0 11.4875 0 11.814ZM21.547 6.13864L24.8576 8.92464V3.26801C24.8576 2.73973 24.521 2.40317 23.9927 2.40317H22.414C21.8953 2.40317 21.547 2.73973 21.547 3.26801V6.13864Z"
 					fill="black" />
 			</svg>
-		</a>
-	</nav>
+		</h:commandLink>
+	</h:form>
 
-</body>
+</h:body>
 
 </html>

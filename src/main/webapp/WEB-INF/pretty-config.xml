@@ -2,6 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
 
+	<url-mapping id="start">
+		<pattern value="/" />
+		<view-id value="/start.xhtml" />
+	</url-mapping>
+
 	<url-mapping id="main">
 		<pattern value="/main" />
 		<view-id value="/main.xhtml" />

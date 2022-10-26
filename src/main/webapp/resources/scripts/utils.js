@@ -1,4 +1,4 @@
-export async function sendData(data) {
+async function sendData(data) {
 	return fetch(
 		"",
 		{
@@ -18,7 +18,7 @@ export async function sendData(data) {
 		})
 }
 
-export function animateInvalid(element, animationDuration) {
+function animateInvalid(element, animationDuration) {
 	element.animate(
 		[
 			{ transform: "translateX(-1px)" },
@@ -35,12 +35,12 @@ export function animateInvalid(element, animationDuration) {
 	)
 }
 
-export function createColor() {
+function createColor() {
 	const randomColorVal = () => { return Math.round(Math.random() * 255) }
 	return `hsl(${randomColorVal()},100%,40%)`
 }
 
-export function easeOutBounce(x) {
+function easeOutBounce(x) {
 	const n1 = 7.5625;
 	const d1 = 2.75;
 
@@ -59,8 +59,12 @@ export function easeOutBounce(x) {
 	return n1 * x * x + 0.984375;
 }
 
-export function createTextInputValidator(predicate, errorMsgElem, errorMsg) {
-	return (newValue, oldValue) => predicate(newValue)
-		? errorMsgElem.innerText = ""
-		: errorMsgElem.innerText = errorMsg
+function createTextInputValidator(predicate, errorMsgElem, errorMsg) {
+	return (newValue, oldValue) => {
+		if (predicate(newValue)) {
+			errorMsgElem.innerText = ""
+		} else {
+			errorMsgElem.innerText = errorMsg
+		}
+	}
 }

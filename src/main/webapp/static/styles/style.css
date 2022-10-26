@@ -144,6 +144,10 @@ a:active { text-decoration: none; }
 	background-color: rgba(240, 255, 255, 0.8);
 }
 
+.circle-bg {
+	border-radius: 50%;
+}
+
 .round-bg {
 	border-radius: 0.7em;
 }
@@ -229,7 +233,7 @@ a:active { text-decoration: none; }
 }
 
 .button-selector.selected {
-	transform: translateY(-2px);
+	transform: translateY(-10%);
 	background-color: rgba(0, 255, 200, 0.664);
 	box-shadow: 0 8px 12px rgb(0 0 0 / 15%);
 }
@@ -238,6 +242,11 @@ a:active { text-decoration: none; }
 	position: fixed;
 	bottom: 0;
 	right: 0;
+}
+
+#x-buttons {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
 }
 
 #result-table {
