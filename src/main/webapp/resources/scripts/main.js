@@ -79,12 +79,20 @@ function drawPoints(canvas, rval) {
 	for (let point of tableBody.children) {
 		const xElem = point.querySelector(".response-x")
 		const yElem = point.querySelector(".response-y")
+		const rElem = point.querySelector(".response-r")
 		const resultElem = point.querySelector(".response-result")
 
 		if (xElem && yElem && resultElem) {
+
 			const x = Number(xElem.innerHTML.trim())
 			const y = Number(yElem.innerHTML.trim())
-			const color = resultElem.innerHTML == "Yes!" ? "rgb(37, 255, 182)" : "rgb(216, 83, 87)";
+			const r = Number(rElem.innerHTML.trim())
+
+			let color = resultElem.innerHTML == "Yes!" ? "rgb(37, 255, 182)" : "rgb(216, 83, 87)";
+
+			if (r != rval) color = "rgb(15, 192, 252)"
+
+			console.log(color, r)
 
 			canvas.drawPoint(x, y, rval, color)
 
