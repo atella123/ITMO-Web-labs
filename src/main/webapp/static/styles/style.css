@@ -50,6 +50,7 @@ td {
 button {
 	padding: 3% 5%;
 	text-align: center;
+	cursor: pointer;
 }
 
 label,
@@ -84,6 +85,10 @@ input[type="text"] {
 
 header>p {
 	text-align: center;
+}
+
+.ui-datatable table {
+	width: auto;
 }
 
 a:link { text-decoration: none; }
@@ -162,9 +167,15 @@ a:active { text-decoration: none; }
 	font-size: 1.1rem;
 }
 
-.form-button:hover {
+.form-button:hover:enabled {
 	transform: translateY(-2px);
 	box-shadow: 0 12px 15px rgb(0 0 0 / 20%);
+}
+
+.form-button:disabled:not(.ui-state-disabled){
+	transform: translateY(4px);
+	box-shadow: 0 6px 6px rgb(0 0 0 / 20%);
+	background-color: rgba(227, 165, 165, 0.55);
 }
 
 .form-input {
@@ -227,7 +238,7 @@ a:active { text-decoration: none; }
 	transition-property: background-color, transform, box-shadow;
 }
 
-.button-selector:hover {
+.button-selector:hover{
 	transform: translateY(-10%);
 	box-shadow: 0 calc(8px - 10%) 15px rgb(0 0 0 / 15%);
 }
@@ -308,6 +319,10 @@ a:active { text-decoration: none; }
 
 	.invalid-message {
 		color: rgb(0, 231, 255);
+	}
+
+	.form-button:disabled:not(.ui-state-disabled) {
+		background-color: rgba(255, 97, 97, 0.77);
 	}
 }
 

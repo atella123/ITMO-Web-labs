@@ -6,7 +6,7 @@ Canvas.font.load().then((font) => {
 	canvas.redraw()
 })
 
-const clock = new Clock(document.getElementById("clock"), 20, 1_000)
+const clock = new Clock(document.getElementById("clock"), 20, 10_000)
 
 Clock.font.load().then((font) => {
 	document.fonts.add(font)

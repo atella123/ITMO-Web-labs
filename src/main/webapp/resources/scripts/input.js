@@ -41,7 +41,9 @@ class InputButtons {
 	constructor(inputElement, buttons) {
 		this.#input = inputElement
 		this.#inputButtons = buttons
-		this.#selectedButton = null
+		this.#selectedButton = buttons.find(e => e.innerText == this.#input.value)
+
+		if (this.#selectedButton) this.#selectedButton.classList.add('selected')
 	}
 
 	getValue() {
@@ -57,7 +59,7 @@ class InputButtons {
 	}
 
 	setValue(val) {
-		const selected = this.#inputButtons.find(e => e.innerText === val)
+		const selected = this.#inputButtons.find(e => e.innerText == val)
 
 		if (!selected) { return }
 

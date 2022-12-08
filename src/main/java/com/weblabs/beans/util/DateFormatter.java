@@ -1,21 +1,22 @@
-package com.weblabs.util;
+package com.weblabs.beans.util;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "dateFormatter")
+@ApplicationScoped
 public class DateFormatter {
 
-	private static DateTimeFormatter formatter = DateTimeFormatter
+	private DateTimeFormatter formatter = DateTimeFormatter
 			.ofPattern("EEE, dd MMM yyyy HH:mm:ss", new Locale("en"))
 			.withZone(ZoneId.of("GMT"));
 
-	private DateFormatter() {
-
-	}
-
-	public static String longToUTCString(long time) {
+	public String longToUTCString(long time) {
 		return formatter.format(Instant.ofEpochSecond(time)) + " GMT";
 	}
 

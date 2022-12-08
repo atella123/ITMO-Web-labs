@@ -9,11 +9,13 @@ class Clock {
 	#width
 	#height
 	#timeout
+	#fontSize
 
 	constructor(canvasElement, fontSize, timeout) {
 		this.#canvas = canvasElement
 		this.#timeout = timeout
 		this.#ctx = canvasElement.getContext("2d")
+		this.#fontSize = fontSize
 
 		this.#width = Math.min(this.#canvas.width, this.#canvas.height)
 		this.#height = this.#width
@@ -72,7 +74,8 @@ class Clock {
 		this.#ctx.arc(width / 2, height / 2 * 0.65, width / 2 * 0.05, 0, Math.PI * 2)
 		this.#ctx.fill()
 
-		this.#ctx.fillText(time.toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" }), width / 2, height * 0.9)
+		this.#ctx.fillText(time.toLocaleDateString('en-us', { weekday: "long" }), width / 2, height * 0.9 - this.#fontSize * 0.6)
+		this.#ctx.fillText(time.toLocaleDateString('en-us', { month: "short", day: "numeric", year: "numeric" }), width / 2, height * 0.9 + this.#fontSize * 0.6)
 	}
 
 	#drawHour(hour, minute, second, millisecond) {

@@ -35,11 +35,6 @@ function animateInvalid(element, animationDuration) {
 	)
 }
 
-function createColor() {
-	const randomColorVal = () => { return Math.round(Math.random() * 255) }
-	return `hsl(${randomColorVal()},100%,40%)`
-}
-
 function easeOutBounce(x) {
 	const n1 = 7.5625;
 	const d1 = 2.75;

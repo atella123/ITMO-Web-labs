@@ -4,12 +4,13 @@ const xInputEl = document.getElementById("xyrForm:x-input")
 const xButtons = document.querySelectorAll("#x-buttons a")
 const yInputEl = document.getElementById("xyrForm:y-input")
 const rInputEl = document.getElementById("xyrForm:r-input")
+const submitButton = document.getElementById("xyrForm:submit-button")
 const xErrorMessage = document.getElementById("x-error-message")
 const yErrorMessage = document.getElementById("y-error-message")
 const table = document.getElementById("result-table")
 const animationDuration = 700
-const canvas = new Canvas(document.getElementById("graph"), 16, (data, canvas) => { sendFormFromGraph(data, canvas, createColor()) })
-let tableBody = document.getElementById("result-table-body")
+const canvas = new Canvas(document.getElementById("graph"), 16, (data, canvas) => { sendFormFromGraph(data, canvas) })
+let tableBody = document.getElementById("result-table_data")
 
 Canvas.font.load().then((font) => {
 	document.fonts.add(font)
@@ -27,8 +28,25 @@ for (let button of xButtons) {
 	button.removeAttribute('onclick')
 	button.addEventListener('click', () => {
 		xInput.setValue(button.innerText)
+		enableSubmitIfFormIsValid()
 	})
 }
+
+const config = {
+	attributes: true,
+}
+
+const callback = function (mutationsList) {
+	for (let mutation of mutationsList) {
+		if (mutation.attributeName === "disabled" && !mutation.target.hasAttribute("disabled")) {
+			enableSubmitIfFormIsValid()
+		}
+	}
+}
+
+const observer = new MutationObserver(callback);
+
+observer.observe(submitButton, config);
 
 drawPoints(canvas, Number(rInputEl.value))
 
@@ -48,8 +66,6 @@ function animateRadiusChange(newVal, oldVal) {
 			return
 		}
 
-		console.log(val)
-
 		val = oldVal + easeOutBounce(currentFrameCount / frameCount) * (newVal - oldVal)
 		redraw(canvas, val)
 
@@ -61,15 +77,23 @@ function animateRadiusChange(newVal, oldVal) {
 
 function drawPoints(canvas, rval) {
 	for (let point of tableBody.children) {
-		const x = Number(point.querySelector(".response-x").innerHTML.trim())
-		const y = Number(point.querySelector(".response-y").innerHTML.trim())
-		const color = point.querySelector(".response-color").innerHTML.trim()
+		const xElem = point.querySelector(".response-x")
+		const yElem = point.querySelector(".response-y")
+		const resultElem = point.querySelector(".response-result")
 
-		canvas.drawPoint(x, y, rval, color)
+		if (xElem && yElem && resultElem) {
+			const x = Number(xElem.innerHTML.trim())
+			const y = Number(yElem.innerHTML.trim())
+			const color = resultElem.innerHTML == "Yes!" ? "rgb(37, 255, 182)" : "rgb(216, 83, 87)";
+
+			canvas.drawPoint(x, y, rval, color)
+
+			resultElem.classList.add(resultElem.innerHTML == "Yes!" ? "hit" : "miss")
+		}
 	}
 }
 
-function sendFormFromGraph(data, canvas, color) {
+function sendFormFromGraph(data, canvas) {
 	if (rInputEl.value.length === 0) {
 		return
 	}
@@ -78,76 +102,59 @@ function sendFormFromGraph(data, canvas, color) {
 
 	const pointCoords = canvas.canvasCoordsToPointCoords(data.x, data.y, data.r)
 
-	data.x = pointCoords.x
-	data.y = pointCoords.y
-	data.color = color
+	const oldXval = xInputEl.value
+	const oldYval = yInputEl.value
 
-	sendForm(data, canvas)
+	xInputEl.value = pointCoords.x
+	yInputEl.value = pointCoords.y
+
+	enableSubmit()
+	submitButton.click()
+
+	xInputEl.value = oldXval
+	yInputEl.value = oldYval
+
 }
 
-function sendForm(data, canvas) {
-	sendData(data).then((responseText) => {
-		const responseObject = JSON.parse(responseText)
-		const newTableBody = document.createElement("tbody")
-		newTableBody.id = tableBody.id
-
-		for (const response of responseObject) {
-			const row = newTableBody.insertRow()
-
-			let cell = row.insertCell()
-			cell.innerHTML = +response.x.toFixed(3)
-			cell.classList.add("response-x")
-
-			cell = row.insertCell()
-			cell.innerHTML = +response.y.toFixed(3)
-			cell.classList.add("response-y")
-
-			cell = row.insertCell()
-			cell.innerHTML = +response.r.toFixed(3)
-			cell.classList.add("response-r")
-
-			cell = row.insertCell()
-			cell.innerHTML = response.hit ? "Yes!" : "No"
-			cell.classList.add(response.hit ? "hit" : "miss")
-			cell.classList.add("response-result")
-
-			cell = row.insertCell()
-			cell.innerHTML = response.completionTime + " ns"
-			cell.classList.add("response-compltionTime")
-
-			cell = row.insertCell()
-			cell.innerHTML = response.color
-			cell.hidden = true
-			cell.classList.add("response-color")
-
-			cell = row.insertCell()
-			cell.innerHTML = new Date(response.currentTime).toUTCString()
-			cell.classList.add("response-curremtTime")
-
-			canvas.drawPoint(response.x, response.y, data.r, response.color)
-		}
-		tableBody.parentNode.replaceChild(newTableBody, tableBody);
-		tableBody = newTableBody
-
-		table.hidden = false
-	})
+function formIsValid() {
+	return xInput.hasVaildValue() && yInput.hasVaildValue() && rInput.hasVaildValue()
 }
 
-form.addEventListener("submit", (event) => {
-	if (xInput.hasVaildValue() && yInput.hasVaildValue() && rInput.hasVaildValue()) {
-		return
+function isSubmitEnabled() {
+	return !submitButton.hasAttribute("disabled")
+}
+
+function enableSubmit() {
+	submitButton.removeAttribute("disabled")
+}
+
+function disableSubmit() {
+	submitButton.setAttribute("disabled", "")
+}
+
+function enableSubmitIfFormIsValid() {
+	if (formIsValid()) {
+		enableSubmit()
+		return false
 	}
 
-	animateInvalid(form, animationDuration)
-	event.preventDefault();
+	disableSubmit()
+	return true
+}
+
+form.addEventListener("change", () => {
+	if (!enableSubmitIfFormIsValid()) animateInvalid(form, animationDuration)
 })
+yInputEl.addEventListener("input", enableSubmitIfFormIsValid)
+enableSubmitIfFormIsValid()
 
 form.addEventListener("reset", () => {
 	xErrorMessage.innerHTML = ""
 	yErrorMessage.innerHTML = ""
 })
 
-function abobaaa() {
-	let a = aboba()
-	a.then(console.log)
+function tableUpdated() {
+	tableBody = document.getElementById("result-table_data")
+
+	redraw(canvas, Number(rInputEl.value))
 }

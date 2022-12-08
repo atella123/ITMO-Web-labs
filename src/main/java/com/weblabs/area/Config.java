@@ -8,11 +8,11 @@ public final class Config {
 
 	private static final Collection<AreaFunction> areas = Arrays.asList(
 			(x, y, r) -> // rectange area
-			x <= 0 && x >= -r / 2 && y >= 0 && y <= r,
+			x <= 0 && x >= -r && y >= 0 && y <= r,
 			(x, y, r) -> // triangle area
-			x >= 0 && y >= 0 && x - r <= -y,
+			x <= 0 && y <= 0 && x + r >= -y,
 			(x, y, r) -> // Circle area
-			x <= 0 && y <= 0 && x * x + y * y <= r * r);
+			x >= 0 && y >= 0 && x * x + y * y <= r * r);
 
 	private static final double[] rValues = { 1, 2, 3, 4, 5 };
 
