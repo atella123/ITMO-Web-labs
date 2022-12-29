@@ -1,0 +1,30 @@
+<div class="flex flex-col justify-center rect-bg rounded-xl py-10 px-16">
+	<p class="text-2xl">Welcome!<br />Please log in to continue</p>
+	<form class="pt-8 flex w-full flex-col space-y-8 min-w-[18rem]" [formGroup]="loginForm"
+		(ngSubmit)="sendLoginRequest()">
+		<div class="p-float-label">
+			<input class="w-full" maxlength="30" type="text" formControlName="login" pInputText />
+			<label for="login">login</label>
+
+		</div>
+
+		<div>
+			<div class="p-float-label">
+				<p-password class="w-full" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+					[primePasswordMaxLength]="30" type="password" formControlName="password" [toggleMask]="true"
+					[feedback]="false"></p-password>
+				<label for="password">password</label>
+			</div>
+			<span [ngClass]="password.invalid && (password.dirty || password.touched) ? '' : 'invisible'"
+				severity="error">
+				invalid password
+			</span>
+		</div>
+
+		<div class="flex justify-end">
+			<button [disabled]="!loginForm.valid"
+				class="form-btn transition-transform hover:-translate-y-2 rect-bg py-4 px-6 rounded-lg"
+				type="submit">Login</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,34 @@
+<table class="rect-bg rounded-2xl p-4 default-padding" id="result-table" aria-describedby="requestResults">
+	<thead>
+		<tr>
+			<th>x</th>
+			<th>y</th>
+			<th>R</th>
+			<th>Is inside?</th>
+			<th>Completion time</th>
+			<th>Current time</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let resp of areaService.responses | async">
+			<td>
+				{{ resp.point.x | number: '1.2-2'}}
+			</td>
+			<td>
+				{{ resp.point.y | number: '1.2-2'}}
+			</td>
+			<td>
+				{{ resp.r }}
+			</td>
+			<td [ngClass]="resp.inArea ? 'hit' : 'miss'">
+				{{ resp.inArea ? 'Yes!' : 'No' }}
+			</td>
+			<td>
+				{{ resp.completionTime }}
+			</td>
+			<td>
+				{{ resp.currentTime | date:'medium' }}
+			</td>
+		</tr>
+	</tbody>
+</table>

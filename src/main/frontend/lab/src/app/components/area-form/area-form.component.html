@@ -1,0 +1,40 @@
+<form [@shake]="animateInvalid" (@shake.done)="stopAnimation()" class="rect-bg rounded-xl text-2xl px-20 py-16"
+	(ngSubmit)="checkPoint()" [formGroup]="areaForm">
+	<div class="grid grid-cols-2 grid-rows-same-h gap-8 mb-8">
+
+		<div class="flex items-center">
+			<label for="x">x value:</label>
+		</div>
+		<p-multiSelect styleClass="w-full" [selectionLimit]="1" [options]="xValues" [showHeader]="false"
+			formControlName="x"></p-multiSelect>
+
+		<div class="flex justify-center flex-col">
+			<label for="y">y value:</label>
+			<div class="text-sm">
+				<span>(Current value:</span>
+				<span class="text-end inline-block font-mono w-[42px]">{{ currentYValue | number:"1.2-2" }}</span>
+				<span class="self-end">)</span>
+			</div>
+		</div>
+		<div
+			class="flex flex-col justify-center bg-white py-5 px-6 border-[1px] border-[#ced4da] rounded-md hover:border-[#14B8A6] transition-colors">
+			<p-slider [min]="-5" [max]="5" [step]="0.01" formControlName="y"></p-slider>
+		</div>
+
+		<div class="flex items-center">
+			<label for="r">R value:</label>
+		</div>
+		<div>
+			<p-multiSelect styleClass="w-full" [selectionLimit]="1" [options]="rValues" [showHeader]="false"
+				formControlName="r"></p-multiSelect>
+		</div>
+
+	</div>
+	<div class="flex justify-evenly gap-10 texl-sm">
+		<button class="rect-bg form-btn" [disabled]="!areaForm.valid" type="submit">check</button>
+
+		<button class="rect-bg form-btn">clear</button>
+
+		<button class="rect-bg form-btn" type="reset">reset</button>
+	</div>
+</form>

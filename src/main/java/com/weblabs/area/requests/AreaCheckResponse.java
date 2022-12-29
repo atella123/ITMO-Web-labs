@@ -2,19 +2,7 @@ package com.weblabs.area.requests;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity(name = "responses")
-@Table(name = "responses", schema = "public")
 public class AreaCheckResponse implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
 
 	private double x;
 	private double y;

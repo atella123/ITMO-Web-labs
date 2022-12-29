@@ -1,0 +1,23 @@
+@tailwind components;
+
+@layer components {
+
+	.form-btn {
+		@apply transition-[transform,shadow,color]
+	}
+
+	.form-btn:enabled {
+		@apply bg-teal-300 hover:-translate-y-1 hover:shadow-lg shadow-md;
+	}
+
+	.form-btn:disabled {
+    	box-shadow: inset 0 8px 8px 4px rgb(0 0 0 / 0.05);
+		
+		@apply bg-teal-400 translate-y-2 shadow-teal-800;
+	}
+
+}
+
+.grid-rows-same-h {
+	grid-auto-rows: 1fr;
+}

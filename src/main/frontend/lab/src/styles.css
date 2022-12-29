@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	margin: 0;
+	font-family: 'Rubik', sans-serif;
+	background: linear-gradient(25deg, hsla(184, 100%, 41%), #8ce7ba 70%) fixed;
+	background-color: #DCFAF1;
+}
+
+.rect-bg {
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	background-blend-mode: overlay;
+	box-shadow: 0 10px 15px rgb(0 0 0 / 20%);
+	box-sizing: border-box;
+	background-color: rgba(240, 255, 255, 0.8);
+}

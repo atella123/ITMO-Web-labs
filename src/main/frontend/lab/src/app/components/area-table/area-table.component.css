@@ -1,0 +1,48 @@
+@tailwind components;
+
+@layer components {
+	
+	.hit {
+		@apply bg-green-300
+	}
+
+	.miss {
+		@apply bg-rose-300
+	}
+	
+	table td,
+	table th {
+		/* border: 1px solid rgba(212, 212, 212, 0.8); */
+		@apply border-zinc-300 border-[1px];
+	}
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 1.2rem;
+}
+
+
+table tr:first-child th {
+	border-top: 0;
+}
+
+table tr:last-child td {
+	border-bottom: 0;
+}
+
+table tr td:first-child,
+table tr th:first-child {
+	border-left: 0;
+}
+
+table tr td:last-child,
+table tr th:last-child {
+	border-right: 0;
+}
+
+th,
+td {
+	text-align: center;
+	padding: 0.25em 1em;
+}
