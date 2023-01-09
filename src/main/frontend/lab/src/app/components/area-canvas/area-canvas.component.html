@@ -1,3 +1,4 @@
-<div class="rect-bg rounded-xl p-6">
-	<canvas #canvas (click)="sendReq($event)" width="450" height="450"></canvas>
+<div class="relative rect-bg rounded-xl tablet:p-6">
+	<canvas #canvasbg class="absolute" width="300" height="300"></canvas>
+	<canvas #canvas class="relative" (click)="sendReq($event)" width="300" height="300"></canvas>
 </div>

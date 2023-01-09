@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { LoginService, LOGIN_SERVICE } from 'src/app/services/login/login';
 
 @Component({
 	selector: 'app-start-page',
@@ -6,6 +7,10 @@ import { Component } from '@angular/core';
 	styleUrls: ['./start-page.component.css']
 })
 export class StartPageComponent {
+
+	constructor(
+		@Inject(LOGIN_SERVICE) public loginService: LoginService
+	) { }
 
 	getDate = () => new Date()
 

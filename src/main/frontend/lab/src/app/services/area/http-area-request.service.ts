@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Area } from 'src/app/model/area/area';
+import { BehaviorSubject } from 'rxjs';
 import { Point } from 'src/app/model/area/point';
 import { AreaResponse } from 'src/app/model/area/response';
 import { AppConfig } from '../config.service';
@@ -12,30 +12,41 @@ import { AreaService } from './area-request.service';
 })
 export class HttpAreaService implements AreaService {
 
-	private rVal: number;
-
 	constructor(
+		private http: HttpClient,
 		private config: AppConfig,
 		@Inject(LOGIN_SERVICE) private loginService: LoginService
 	) {
-		this.rVal = 0
+		this.getAreas()
 	}
 
-	readonly responses = new Observable<AreaResponse[]>()
+	readonly responses = new BehaviorSubject<AreaResponse[]>([])
 
 	readonly r = new BehaviorSubject<number>(0)
 
 	setR(r: number): void {
 		this.r.next(r)
-		this.rVal = r
 	}
 
 	checkPoint(point: Point): boolean {
+		if (this.r.getValue() <= 0) {
+			return false
+		}
+
+		const headers = this.loginService.getAuthHeader();
+
+		const requestBody = { ...point, r: this.r.getValue() }
+
+		this.http.post(this.config.serverUrl + this.config.areaConfig.baseUrl + this.config.areaConfig.checkPoint, requestBody, { headers })
+			.subscribe(() => this.getAreas())
+
 		return true
 	}
 
-	getAllAreas(): Area[] {
-		return []
-	}
+	private async getAreas() {
+		const headers = this.loginService.getAuthHeader();
 
+		this.http.get<AreaResponse[]>(this.config.serverUrl + this.config.areaConfig.baseUrl, { headers })
+			.subscribe((resp) => this.responses.next(resp))
+	}
 }

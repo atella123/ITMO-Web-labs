@@ -5,16 +5,15 @@ import { Injectable } from "@angular/core";
 })
 export class AppConfig {
 
-	public readonly serverUrl = "127.0.0.1"
+	public readonly serverUrl = ""
 	public readonly areaConfig = {
-		baseUrl: "api/area/",
-		points: "/points",
-		checkPoint: "/checkPoint",
-		areas: "/areas",
+		baseUrl: "api/area",
+		checkPoint: "/checkPoint"
 	}
 	public readonly authConfig = {
 		baseUrl: "api/auth/",
-		login: "login"
+		login: "login",
+		register: "register"
 	}
 
 }

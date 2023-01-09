@@ -1,6 +1,7 @@
-<table class="rect-bg rounded-2xl p-4 default-padding" id="result-table" aria-describedby="requestResults">
+<table *ngIf="(areaService.responses | async) != null && (areaService.responses | async)!.length != 0"
+	class="rect-bg rounded-2xl p-4 my-32" id="result-table" aria-describedby="requestResults">
 	<thead>
-		<tr>
+		<tr class="text-xs tablet:text-base">
 			<th>x</th>
 			<th>y</th>
 			<th>R</th>
@@ -9,18 +10,18 @@
 			<th>Current time</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody class="text-xs tablet:text-base">
 		<tr *ngFor="let resp of areaService.responses | async">
 			<td>
-				{{ resp.point.x | number: '1.2-2'}}
+				{{ resp.x | number: '1.2-2'}}
 			</td>
 			<td>
-				{{ resp.point.y | number: '1.2-2'}}
+				{{ resp.y | number: '1.2-2'}}
 			</td>
 			<td>
 				{{ resp.r }}
 			</td>
-			<td [ngClass]="resp.inArea ? 'hit' : 'miss'">
+			<td class="text-[0px] tablet:text-base" [ngClass]="resp.inArea ? 'hit' : 'miss'">
 				{{ resp.inArea ? 'Yes!' : 'No' }}
 			</td>
 			<td>

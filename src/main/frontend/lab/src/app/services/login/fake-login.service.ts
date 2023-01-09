@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 import { User } from "src/app/model/user/user";
 
@@ -7,6 +8,8 @@ import { User } from "src/app/model/user/user";
 	providedIn: 'root'
 })
 export class FakeLoginService {
+
+	readonly user = new Subject();
 
 	constructor(
 		private router: Router
@@ -17,21 +20,13 @@ export class FakeLoginService {
 		this.router.navigate(['main'])
 	}
 
-	checkLoginAvailability(login: string): boolean {
-		return login == 'login'
-	}
-
 	register(user: User): void {
 		console.log(user)
 		this.router.navigate(['main'])
 	}
 
 	logOut(): void {
-
-	}
-
-	getCurrentUserData() {
-		return { login: 'login', password: 'password' }
+		return
 	}
 
 }

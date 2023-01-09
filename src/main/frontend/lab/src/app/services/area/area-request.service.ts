@@ -1,6 +1,5 @@
-import { InjectionToken } from "@angular/core"
+import { InjectionToken } from "@angular/core";
 import { Observable } from "rxjs";
-import { Area } from "src/app/model/area/area";
 import { Point } from "src/app/model/area/point";
 import { AreaResponse } from "src/app/model/area/response";
 
@@ -15,7 +14,4 @@ export interface AreaService {
 	setR(r: number): void
 
 	checkPoint(point: Point): boolean
-
-	getAllAreas(): Area[]
-
 }

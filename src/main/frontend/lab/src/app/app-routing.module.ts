@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { StartPageComponent } from './components/start-page/start-page.component';
+import { IsLoggedIn } from './services/is-logged-in';
 
 const routes: Routes = [
 	{ path: '', component: StartPageComponent },
-	{ path: 'main', component: MainPageComponent },
+	{ path: 'main', component: MainPageComponent, canActivate: [IsLoggedIn] },
 	{ path: '404', component: NotFoundPageComponent },
 	{ path: '**', redirectTo: "/404" }
 ];

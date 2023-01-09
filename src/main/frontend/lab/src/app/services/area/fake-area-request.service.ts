@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, Observable, of, startWith, Subject, switchMap, take, takeWhile } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Area } from 'src/app/model/area/area';
 import { Point } from 'src/app/model/area/point';
 import { AreaResponse } from 'src/app/model/area/response';
@@ -41,7 +41,8 @@ export class FakeAreaService implements AreaService {
 		const resp = this.createRandomResponse()
 
 		this.responsesArray.push({
-			point: point,
+			x: point.x,
+			y: point.y,
 			r: this.rVal,
 			inArea: resp.inArea,
 			completionTime: resp.completionTime,
@@ -61,7 +62,8 @@ export class FakeAreaService implements AreaService {
 		const end = new Date()
 
 		return {
-			point: { x: Math.random() * 8 - 4, y: Math.random() * 10 - 5 },
+			x: Math.random() * 8 - 4,
+			y: Math.random() * 10 - 5,
 			r: Math.round(Math.random() * 4) + 1,
 			inArea: Math.random() <= 0.5,
 			completionTime: Math.random() * Math.pow(10, 9),

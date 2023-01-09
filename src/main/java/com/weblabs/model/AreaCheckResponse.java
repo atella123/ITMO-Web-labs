@@ -1,14 +1,24 @@
-package com.weblabs.area.requests;
+package com.weblabs.model;
 
-import java.io.Serializable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-public class AreaCheckResponse implements Serializable {
+@Entity(name = "areas")
+public class AreaCheckResponse {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long id;
 
 	private double x;
 	private double y;
 	private double r;
-	private boolean hit;
+	private boolean inArea;
 	private long completionTime;
+	@Column(name = "cur_time")
 	private long currentTime;
 
 	public AreaCheckResponse() {
@@ -20,7 +30,7 @@ public class AreaCheckResponse implements Serializable {
 		this.x = x;
 		this.y = y;
 		this.r = r;
-		this.hit = result;
+		this.inArea = result;
 		this.completionTime = completionTime;
 		this.currentTime = currentTime;
 	}
@@ -37,8 +47,8 @@ public class AreaCheckResponse implements Serializable {
 		return r;
 	}
 
-	public boolean isHit() {
-		return hit;
+	public boolean isInArea() {
+		return inArea;
 	}
 
 	public long getCompletionTime() {
@@ -61,8 +71,8 @@ public class AreaCheckResponse implements Serializable {
 		this.r = r;
 	}
 
-	public void setHit(boolean hit) {
-		this.hit = hit;
+	public void setInArea(boolean hit) {
+		this.inArea = hit;
 	}
 
 	public void setCompletionTime(long completionTime) {
@@ -84,7 +94,7 @@ public class AreaCheckResponse implements Serializable {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(r);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (hit ? 1231 : 1237);
+		result = prime * result + (inArea ? 1231 : 1237);
 		result = prime * result + (int) (completionTime ^ (completionTime >>> 32));
 		result = prime * result + (int) (currentTime ^ (currentTime >>> 32));
 		return result;
@@ -105,7 +115,7 @@ public class AreaCheckResponse implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(r) != Double.doubleToLongBits(other.r))
 			return false;
-		if (hit != other.hit)
+		if (inArea != other.inArea)
 			return false;
 		if (completionTime != other.completionTime)
 			return false;
@@ -114,7 +124,7 @@ public class AreaCheckResponse implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AreaCheckResponse [x=" + x + ", y=" + y + ", r=" + r + ", hit=" + hit + ", completionTime="
+		return "AreaCheckResponse [x=" + x + ", y=" + y + ", r=" + r + ", hit=" + inArea + ", completionTime="
 				+ completionTime + ", currentTime=" + currentTime + "]";
 	}
 }

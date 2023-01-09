@@ -1,4 +1,4 @@
-package com.weblabs.area;
+package com.weblabs.model;
 
 @FunctionalInterface
 public interface AreaFunction {

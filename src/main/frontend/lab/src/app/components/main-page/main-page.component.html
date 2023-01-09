@@ -1,8 +1,8 @@
-<section class="flex justify-center items-center space-x-16 mb-24">
-	<app-area-form></app-area-form>
+<section
+	class="w-full flex flex-col-reverse desktop:flex-row justify-center items-center gap-10 desktop:space-x-16 my-10 desktop:my-20">
+	<app-area-form class="w-full tablet:w-auto"></app-area-form>
 	<app-area-canvas [fontSize]="16"></app-area-canvas>
 </section>
 
-<app-area-table class="flex justify-center my-32"></app-area-table>
-
-<app-area-table class="flex justify-center my-32"></app-area-table>
+<app-area-table class="flex justify-center w-full tablet:w-auto"></app-area-table>
+<app-logout></app-logout>

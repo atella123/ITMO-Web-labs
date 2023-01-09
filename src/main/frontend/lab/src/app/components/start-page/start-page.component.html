@@ -1,4 +1,10 @@
-<section class="flex justify-center items-center space-x-16">
-	<app-login-form></app-login-form>
-	<app-clock [timeFunction]="getDate" [timeout]="100" [fontSize]="20"></app-clock>
+<section class="flex justify-center items-center tablet:space-x-16">
+	<div *ngIf="(loginService.user | async) == undefined; else logout">
+		<app-login-form></app-login-form>
+	</div>
+	<app-clock class="hidden tablet:block" [timeFunction]="getDate" [timeout]="100" [fontSize]="20"></app-clock>
 </section>
+
+<ng-template #logout>
+	<app-logout></app-logout>
+</ng-template>
